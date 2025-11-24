@@ -1,0 +1,278 @@
+/**
+ * Tables CSS
+ * Data table styling for inventory, transactions, etc.
+ */
+
+/* ============================================
+   TABLE CONTAINER
+   ============================================ */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: var(--spacing-lg) 0;
+}
+
+/* ============================================
+   BASIC TABLE
+   ============================================ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--bg-primary);
+  font-size: 0.938rem;
+}
+
+.table th,
+.table td {
+  padding: var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* ============================================
+   TABLE HEADER
+   ============================================ */
+.table thead {
+  background-color: var(--bg-secondary);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  font-size: 0.813rem;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   TABLE BODY
+   ============================================ */
+.table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover {
+  background-color: var(--bg-secondary);
+}
+
+.table td {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   TABLE VARIANTS
+   ============================================ */
+
+/* Bordered table */
+.table--bordered {
+  border: 1px solid var(--border-light);
+}
+
+.table--bordered th,
+.table--bordered td {
+  border: 1px solid var(--border-light);
+}
+
+/* Striped table */
+.table--striped tbody tr:nth-child(even) {
+  background-color: var(--bg-secondary);
+  background-color: #f5e6e4;
+}
+
+/* Compact table */
+.table--compact th,
+.table--compact td {
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+/* ============================================
+   TABLE ALIGNMENT
+   ============================================ */
+.table .text-right {
+  text-align: right;
+}
+
+.table .text-center {
+  text-align: center;
+}
+
+/* ============================================
+   SORTABLE HEADERS
+   ============================================ */
+.table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: var(--spacing-xl);
+}
+
+.table th.sortable:hover {
+  background-color: var(--border-light);
+}
+
+.table th.sortable::after {
+  content: "↕";
+  position: absolute;
+  right: var(--spacing-sm);
+  opacity: 0.3;
+}
+
+.table th.sortable--asc::after {
+  content: "↑";
+  opacity: 1;
+}
+
+.table th.sortable--desc::after {
+  content: "↓";
+  opacity: 1;
+}
+
+/* ============================================
+   TABLE ACTIONS
+   ============================================ */
+.table-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.table-action-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.813rem;
+  background-color: transparent;
+  color: var(--accent);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.table-action-btn:hover {
+  background-color: var(--accent);
+  color: var(--text-inverse);
+  border-color: var(--accent);
+}
+
+/* ============================================
+   TABLE FOOTER
+   ============================================ */
+.table tfoot {
+  background-color: var(--bg-secondary);
+  font-weight: 600;
+}
+
+.table tfoot td {
+  border-bottom: none;
+  border-top: 2px solid var(--border-color);
+}
+
+/* ============================================
+   PAGINATION
+   ============================================ */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-light);
+}
+
+.pagination__info {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.pagination__controls {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.pagination__btn {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.pagination__btn:hover:not(:disabled) {
+  background-color: var(--accent);
+  color: var(--text-inverse);
+  border-color: var(--accent);
+}
+
+.pagination__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination__btn--active {
+  background-color: var(--accent);
+  color: var(--text-inverse);
+  border-color: var(--accent);
+}
+
+/* ============================================
+   RESPONSIVE TABLES
+   ============================================ */
+@media (max-width: 768px) {
+  /* Stack table on mobile */
+  .table--responsive thead {
+    display: none;
+  }
+
+  .table--responsive tbody,
+  .table--responsive tr,
+  .table--responsive td {
+    display: block;
+    width: 100%;
+  }
+
+  .table--responsive tr {
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: var(--spacing-md);
+  }
+
+  .table--responsive td {
+    border: none;
+    padding: var(--spacing-xs) 0;
+    text-align: right;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .table--responsive td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-right: var(--spacing-sm);
+    font-weight: 600;
+    text-align: left;
+    color: var(--text-secondary);
+  }
+}
+
+/* ============================================
+   EMPTY TABLE STATE
+   ============================================ */
+.table-empty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+}
+
+.table-empty__icon {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.3;
+}
+
+.table-empty__message {
+  font-size: 1rem;
+  margin-bottom: var(--spacing-sm);
+}

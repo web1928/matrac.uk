@@ -1,0 +1,7 @@
+# Deny all access to config directory
+# This prevents direct web access to database credentials
+
+<Files "*">
+    Order Deny,Allow
+    Deny from all
+</Files>

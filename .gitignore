@@ -1,0 +1,58 @@
+# MatraC - Git Ignore File
+# Prevents committing sensitive or unnecessary files
+
+# Configuration files with credentials
+config/database.php
+
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+error_log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Database backups
+*.sql.gz
+*.sql.backup
+backups/
+
+# Uploaded files (if implementing file uploads)
+uploads/
+user-uploads/
+
+# Environment-specific files
+.env
+.env.local
+.env.*.local
+
+# Vendor directories (if using Composer later)
+vendor/
+
+# Node modules (if using npm later)
+node_modules/
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
+# Directories
+_old_files
+_DOCS
