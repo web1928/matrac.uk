@@ -1,0 +1,785 @@
+/**
+ * Pages CSS
+ * Page-specific patterns and utilities
+ * Eliminates inline styles from view files
+ */
+
+/* ============================================
+   STATISTICS GRID
+   Grid layout for dashboard/summary cards
+   ============================================ */
+
+/* Container for statistics cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Compact variant with smaller gap */
+.stats-grid--compact {
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Stats card body - centers content */
+.stats-card__body {
+  text-align: center;
+}
+
+/* Large number display */
+.stats-card__value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-adjacent1); /* #B45346 */
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+/* Medium variant for inventory pages */
+.stats-card__value--md {
+  font-size: 2rem;
+}
+
+/* Use accent color instead of adjacent */
+.stats-card__value--accent {
+  color: var(--accent);
+}
+
+/* Stats card label */
+.stats-card__label {
+  color: var(--text-secondary);
+  font-size: 0.938rem;
+}
+
+/* Smaller label variant */
+.stats-card__label--sm {
+  font-size: 0.875rem;
+}
+
+/* ============================================
+   STATS CARD MODIFIER - Warning State
+   For highlighting items requiring attention
+   ============================================ */
+.stats-card__value--warning {
+  color: #333333;
+}
+
+/* ============================================
+   STATS GRID RESPONSIVE BEHAVIOR
+   ============================================ */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .stats-card__value {
+    font-size: 2rem;
+  }
+
+  .stats-card__value--md {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   FILTER SECTIONS
+   Grid layouts for filter forms
+   ============================================ */
+
+/* Filter grid - responsive auto-fit columns */
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+/* Remove bottom margin from form groups in filter grids */
+.filter-grid .form-group {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   FORM GRIDS
+   Reusable grid patterns for forms
+   ============================================ */
+
+/* Two column form grid */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Three column form grid */
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Four column form grid */
+.form-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* Auto-fit form grid (responsive) */
+.form-grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Remove bottom margin from form groups in form grids */
+.form-grid-2 .form-group,
+.form-grid-3 .form-group,
+.form-grid-4 .form-group,
+.form-grid-auto .form-group {
+  margin-bottom: 0;
+}
+
+/* Add bottom spacing to form grid rows */
+.form-grid-2.form-grid--spaced,
+.form-grid-3.form-grid--spaced,
+.form-grid-4.form-grid--spaced {
+  margin-bottom: 1rem;
+}
+
+/* ============================================
+   INFO CARD SECTIONS
+   Secondary background cards for grouped info
+   ============================================ */
+
+/* Info card - secondary background for form sections */
+.info-card {
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+
+/* Info card header */
+.info-card__header {
+  margin-bottom: 1rem;
+  font-size: 0.938rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ============================================
+   FORM GRID RESPONSIVE BEHAVIOR
+   ============================================ */
+@media (max-width: 768px) {
+  .form-grid-2,
+  .form-grid-3,
+  .form-grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-grid-auto {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   MODAL OVERLAYS
+   Full-screen modal dialog system
+   ============================================ */
+
+/* Modal overlay backdrop */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Show modal when visible */
+.modal--visible {
+  display: flex;
+}
+
+/* Modal dialog container */
+.modal__dialog {
+  background: var(--bg-primary);
+  border-radius: 8px;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 2rem;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Small modal variant */
+.modal__dialog--sm {
+  max-width: 500px;
+}
+
+/* Medium modal variant (default) */
+.modal__dialog--md {
+  max-width: 600px;
+}
+
+/* Large modal variant */
+.modal__dialog--lg {
+  max-width: 900px;
+}
+
+/* Fixed width modal */
+.modal__dialog--fixed {
+  width: 500px;
+  max-width: 90vw;
+}
+
+/* Modal header */
+.modal__header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Modal title */
+.modal__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Modal close button */
+.modal__close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-primary);
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.modal__close:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* Modal body */
+.modal__body {
+  padding: 1.5rem;
+}
+
+/* Modal footer (optional) */
+.modal__footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-light);
+  background-color: var(--bg-secondary);
+}
+
+/* ============================================
+   MODAL INFO BOX
+   Secondary background box within modals
+   ============================================ */
+.modal__info-box {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+/* ============================================
+   MODAL RESPONSIVE BEHAVIOR
+   ============================================ */
+@media (max-width: 768px) {
+  .modal__dialog {
+    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .modal__dialog--fixed {
+    width: auto;
+  }
+
+  .modal__header,
+  .modal__body,
+  .modal__footer {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal__dialog {
+    margin: 0.5rem;
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
+  }
+
+  .modal__title {
+    font-size: 1.125rem;
+  }
+}
+
+/* ============================================
+   QUICK ACTIONS
+   Button groups and action layouts
+   ============================================ */
+
+/* Quick actions button container */
+.quick-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Center-aligned quick actions */
+.quick-actions--center {
+  justify-content: center;
+}
+
+/* Right-aligned quick actions */
+.quick-actions--right {
+  justify-content: flex-end;
+}
+
+/* ============================================
+   SPACING UTILITIES
+   Consistent spacing for cards and sections
+   ============================================ */
+
+/* Top spacing for cards/sections */
+.mt-xs {
+  margin-top: 0.5rem;
+}
+.mt-sm {
+  margin-top: 1rem;
+}
+.mt-md {
+  margin-top: 1.5rem;
+}
+.mt-lg {
+  margin-top: 2rem;
+}
+.mt-xl {
+  margin-top: 3rem;
+}
+
+/* Bottom spacing */
+.mb-xs {
+  margin-bottom: 0.5rem;
+}
+.mb-sm {
+  margin-bottom: 1rem;
+}
+.mb-md {
+  margin-bottom: 1.5rem;
+}
+.mb-lg {
+  margin-bottom: 2rem;
+}
+.mb-xl {
+  margin-bottom: 3rem;
+}
+
+/* All-around spacing */
+.m-xs {
+  margin: 0.5rem;
+}
+.m-sm {
+  margin: 1rem;
+}
+.m-md {
+  margin: 1.5rem;
+}
+.m-lg {
+  margin: 2rem;
+}
+.m-xl {
+  margin: 3rem;
+}
+
+/* ============================================
+   TEXT UTILITIES
+   Text alignment and styling
+   ============================================ */
+
+/* Text alignment */
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+/* Text colors */
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-muted {
+  color: var(--text-muted);
+}
+.text-accent {
+  color: var(--accent);
+}
+
+/* ============================================
+   PADDING UTILITIES
+   Consistent padding for elements
+   ============================================ */
+
+/* All-around padding */
+.p-xs {
+  padding: 0.5rem;
+}
+.p-sm {
+  padding: 1rem;
+}
+.p-md {
+  padding: 1.5rem;
+}
+.p-lg {
+  padding: 2rem;
+}
+.p-xl {
+  padding: 3rem;
+}
+
+/* Vertical padding */
+.py-xs {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.py-sm {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.py-md {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+.py-lg {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.py-xl {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Horizontal padding */
+.px-xs {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.px-sm {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.px-md {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.px-lg {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.px-xl {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+/* ============================================
+   LOADING & EMPTY STATES
+   Consistent styling for loading/empty content
+   ============================================ */
+
+/* Loading text state */
+.loading-text {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Loading with spinner */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.loading-state__text {
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+@media (max-width: 768px) {
+  .quick-actions {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-actions {
+    flex-direction: column;
+  }
+
+  .quick-actions .btn {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   MODAL CONTENT LAYOUTS
+   Grid layouts for modal content
+   ============================================ */
+
+/* Two-column grid for modal content */
+.modal-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Modal section heading */
+.modal-section-title {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Modal data table (for key-value pairs) */
+.modal-data-table {
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+.modal-data-table td {
+  padding: 0.25rem 0;
+  vertical-align: top;
+}
+
+.modal-data-table td:first-child {
+  font-weight: 600;
+  padding-right: 1rem;
+  white-space: nowrap;
+}
+
+/* ============================================
+   TABLE ACTION BUTTON VARIANTS
+   Inline styles for table action buttons
+   ============================================ */
+
+/* Danger/reject action button */
+.table-action-btn--danger {
+  border-color: #666;
+}
+
+.table-action-btn--danger:hover {
+  background-color: #666;
+  color: var(--text-inverse);
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   Additional text styling utilities
+   ============================================ */
+
+/* Font sizes */
+.text-xs {
+  font-size: 0.75rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+}
+.text-base {
+  font-size: 1rem;
+}
+.text-lg {
+  font-size: 1.125rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+}
+
+/* Font weights */
+.font-normal {
+  font-weight: 400;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.font-bold {
+  font-weight: 700;
+}
+
+/* Line height */
+.leading-none {
+  line-height: 1;
+}
+.leading-tight {
+  line-height: 1.25;
+}
+.leading-normal {
+  line-height: 1.5;
+}
+.leading-relaxed {
+  line-height: 1.75;
+}
+
+/* ============================================
+   DISPLAY UTILITIES
+   ============================================ */
+
+/* Flexbox */
+.flex {
+  display: flex;
+}
+.inline-flex {
+  display: inline-flex;
+}
+
+/* Flex direction */
+.flex-row {
+  flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
+}
+
+/* Flex alignment */
+.items-start {
+  align-items: flex-start;
+}
+.items-center {
+  align-items: center;
+}
+.items-end {
+  align-items: flex-end;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-between {
+  justify-content: space-between;
+}
+
+/* Flex gap */
+.gap-xs {
+  gap: 0.5rem;
+}
+.gap-sm {
+  gap: 1rem;
+}
+.gap-md {
+  gap: 1.5rem;
+}
+.gap-lg {
+  gap: 2rem;
+}
+
+/* ============================================
+   WIDTH & HEIGHT UTILITIES
+   ============================================ */
+
+.w-full {
+  width: 100%;
+}
+.w-auto {
+  width: auto;
+}
+
+.max-w-xs {
+  max-width: 200px;
+}
+.max-w-sm {
+  max-width: 300px;
+}
+.max-w-md {
+  max-width: 400px;
+}
+.max-w-lg {
+  max-width: 600px;
+}
+.max-w-xl {
+  max-width: 800px;
+}
+
+/* ============================================
+   OVERFLOW UTILITIES
+   ============================================ */
+
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ============================================
+   RESPONSIVE MODAL CONTENT
+   ============================================ */
+@media (max-width: 768px) {
+  .modal-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

@@ -1,56 +1,58 @@
-# MatraC - Git Ignore File
-# Prevents committing sensitive or unnecessary files
+# Environment Configuration
+.env
+.env.local
+.env.*.local
 
-# Configuration files with credentials
-config/database.php
-
-# macOS files
+# Operating System Files
 .DS_Store
-.AppleDouble
-.LSOverride
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Editor directories and files
+# IDE & Editor Files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
 
 # Logs
 *.log
 logs/
 error_log
 
-# Temporary files
+# Temporary Files
 tmp/
 temp/
-*.tmp
+cache/
 
-# Database backups
-*.sql.gz
-*.sql.backup
-backups/
-
-# Uploaded files (if implementing file uploads)
+# Uploaded Files (if you add upload functionality)
 uploads/
-user-uploads/
+storage/
 
-# Environment-specific files
-.env
-.env.local
-.env.*.local
+# Composer
+/vendor/
+composer.lock
 
-# Vendor directories (if using Composer later)
-vendor/
-
-# Node modules (if using npm later)
+# Node (if you add npm/yarn later)
 node_modules/
+package-lock.json
+yarn.lock
 
-# OS generated files
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
+# Database Backups
+*.sql
+!sql/schema.sql
+!sql/*_schema.sql
+
+# MacOS
+__MACOSX/
 
 
 # Directories

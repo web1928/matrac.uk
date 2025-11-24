@@ -14,83 +14,83 @@ ob_start();
 <!-- Welcome Message -->
 <div class="card">
     <div class="card__body">
-        <h2 style="margin-bottom: 1rem;">Welcome back, <?= h($user['first_name']) ?>!</h2>
-        <p style="color: var(--text-secondary);">
+        <h2 class="mb-sm">Welcome back, <?= h($user['first_name']) ?>!</h2>
+        <p class="text-secondary">
             You are logged in as <strong><?= h(ucwords(str_replace('_', ' ', $user['role']))) ?></strong>.
         </p>
     </div>
 </div>
 
 <!-- Statistics Grid -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+<div class="stats-grid">
     <!-- Batches Received Today -->
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: #B45346; margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value">
                 <?= h($stats['today_receipts']) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.938rem;">Batches Received Today</div>
+            <div class="stats-card__label">Batches Received Today</div>
         </div>
     </div>
 
     <!-- Active Batches -->
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: #B45346; margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value">
                 <?= h($stats['active_batches']) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.938rem;">Active Batches</div>
+            <div class="stats-card__label">Active Batches</div>
         </div>
     </div>
 
     <!-- Materials on Hold -->
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: <?= $stats['on_hold'] > 0 ? '#B45346' : '#B45346' ?>; margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value">
                 <?= h($stats['on_hold']) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.938rem;">Materials on Hold</div>
+            <div class="stats-card__label">Materials on Hold</div>
         </div>
     </div>
 
     <!-- Active Materials -->
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: #B45346; margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value">
                 <?= h($stats['active_materials']) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.938rem;">Active Materials</div>
+            <div class="stats-card__label">Active Materials</div>
         </div>
     </div>
 
     <!-- Active Suppliers -->
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: #B45346; margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value">
                 <?= h($stats['active_suppliers']) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.938rem;">Active Suppliers</div>
+            <div class="stats-card__label">Active Suppliers</div>
         </div>
     </div>
 
     <!-- Recent Rejects (Last 7 Days) -->
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: <?= $stats['recent_rejects'] > 0 ? '#333' : '#B45346' ?>; margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value <?= $stats['recent_rejects'] > 0 ? 'stats-card__value--warning' : '' ?>">
                 <?= h($stats['recent_rejects']) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.938rem;">Rejects (Last 7 Days)</div>
+            <div class="stats-card__label">Rejects (Last 7 Days)</div>
         </div>
     </div>
 </div>
 
 <!-- Quick Actions -->
-<div class="card" style="margin-top: 2rem;">
+<div class="card mt-lg">
     <div class="card__header">
         <h3 class="card__title">Quick Actions</h3>
     </div>
     <div class="card__body">
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div class="quick-actions">
             <?php if (hasRole(['admin', 'goods_receptor', 'manager'])): ?>
                 <a href="<?= url('/goods-receipt') ?>" class="btn btn--primary">
                     + New Goods Receipt
@@ -124,7 +124,7 @@ ob_start();
 
 <!-- Recent Receipts -->
 <?php if (!empty($recentReceipts)): ?>
-    <div class="card" style="margin-top: 2rem;">
+    <div class="card mt-lg">
         <div class="card__header">
             <h3 class="card__title">Recent Receipts (Today)</h3>
         </div>
@@ -159,7 +159,7 @@ ob_start();
 
 <!-- Pending QA Items -->
 <?php if (!empty($pendingQA) && hasRole(['admin', 'qa', 'manager'])): ?>
-    <div class="card" style="margin-top: 2rem;">
+    <div class="card mt-lg">
         <div class="card__header">
             <h3 class="card__title">Pending QA Items (On Hold)</h3>
         </div>
@@ -202,7 +202,7 @@ ob_start();
 
 <!-- No Recent Activity Message -->
 <?php if (empty($recentReceipts) && empty($pendingQA)): ?>
-    <div class="card" style="margin-top: 2rem;">
+    <div class="card mt-lg">
         <div class="card__body">
             <div class="empty-state">
                 <div class="empty-state__icon">📊</div>

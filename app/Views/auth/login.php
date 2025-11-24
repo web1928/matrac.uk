@@ -61,11 +61,11 @@
             <?php endif; ?>
 
             <div class="alert alert--info" style="margin-bottom: 1.5rem;">
-                <div class="alert__title">Test Credentials</div>
-                <div class="alert__message">
+                <div class="alert__title">Please Log In</div>
+                <!-- <div class="alert__message">
                     <strong>Username:</strong> admin, receptor, issuer, or mixer<br>
                     <strong>Password:</strong> admin123 (for admin) or test123 (others)
-                </div>
+                </div> -->
             </div>
 
             <form method="POST" action="<?= url('/login') ?>">

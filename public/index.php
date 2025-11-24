@@ -15,7 +15,8 @@ require_once ROOT_PATH . '/config/env.php';
 require_once ROOT_PATH . '/app/helpers.php';
 
 // Load existing auth functions (keep for now)
-require_once ROOT_PATH . '/includes/auth.php';
+// require_once ROOT_PATH . '/includes/auth.php';
+require_once ROOT_PATH . '/config/auth.php';
 
 // Load database config
 require_once ROOT_PATH . '/config/database.php';

@@ -5,6 +5,92 @@
  */
 
 /**
+ * Initialize modal close functionality
+ */
+document.addEventListener("DOMContentLoaded", function () {
+  // Close modals when clicking close button or backdrop
+  document.querySelectorAll(".modal").forEach((modal) => {
+    // Close button
+    const closeBtn = modal.querySelector(".modal__close");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => {
+        modal.classList.remove("modal--visible");
+      });
+    }
+
+    // Backdrop click (click on overlay, not dialog)
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("modal--visible");
+      }
+    });
+  });
+
+  // ESC key to close modals
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".modal--visible").forEach((modal) => {
+        modal.classList.remove("modal--visible");
+      });
+    }
+  });
+
+  // QA Form submission handler
+  const form = document.getElementById("qa-action-form");
+
+  if (form) {
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById("qa-submit-btn");
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
+
+      try {
+        const formData = new FormData(this);
+
+        const response = await fetch(url("/inventory/hold-status"), {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showAlert(result.message, "success");
+
+          // Close modal
+          document.getElementById("qa-action-modal").classList.remove("modal--visible");
+
+          // Reload page to show updated inventory
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          showAlert(result.error || "Action failed", "error");
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
+      } catch (error) {
+        console.error("QA action error:", error);
+        showAlert("An error occurred", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  }
+
+  // QA Cancel button handler
+  const cancelBtn = document.getElementById("qa-cancel-btn");
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      document.getElementById("qa-action-modal").classList.remove("modal--visible");
+    });
+  }
+});
+
+/**
  * Open QA Action Modal
  */
 function openQAModal(inventoryId, actionType, quantity, uom, batchCode, materialCode, currentStatus) {
@@ -45,58 +131,8 @@ function openQAModal(inventoryId, actionType, quantity, uom, batchCode, material
   }
 
   // Show modal
-  modal.style.display = "flex";
+  modal.classList.add("modal--visible");
 }
-
-/**
- * Handle QA Action Form Submission
- */
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("qa-action-form");
-
-  if (form) {
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const submitBtn = document.getElementById("qa-submit-btn");
-      const originalText = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
-
-      try {
-        const formData = new FormData(this);
-
-        const response = await fetch(url("/inventory/hold-status"), {
-          method: "POST",
-          body: formData,
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          showAlert(result.message, "success");
-
-          // Close modal
-          document.getElementById("qa-action-modal").style.display = "none";
-
-          // Reload page to show updated inventory
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        } else {
-          showAlert(result.error || "Action failed", "error");
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalText;
-        }
-      } catch (error) {
-        console.error("QA action error:", error);
-        showAlert("An error occurred", "error");
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-      }
-    });
-  }
-});
 
 /**
  * View Batch Details
@@ -219,5 +255,5 @@ function displayBatchDetails(data) {
     `;
 
   document.getElementById("batch-detail-content").innerHTML = content;
-  document.getElementById("batch-detail-modal").style.display = "flex";
+  document.getElementById("batch-detail-modal").classList.add("modal--visible");
 }

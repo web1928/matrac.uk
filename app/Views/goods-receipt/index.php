@@ -77,7 +77,7 @@ ob_start();
             </div>
 
             <!-- Primary Supplier Use By and Batch Code -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-grid-2">
                 <div class="form-group">
                     <label for="supplier-useby-1" class="form-label form-label--required">Supplier Use By Date</label>
                     <input
@@ -101,42 +101,42 @@ ob_start();
             </div>
 
             <!-- Additional Supplier Use By and Batch Codes (Optional) -->
-            <div class="card" style="background-color: var(--bg-secondary); padding: 1rem; margin-bottom: 1.5rem;">
-                <h4 style="margin-bottom: 1rem; font-size: 0.938rem; color: var(--text-secondary);">
+            <div class="info-card">
+                <h4 class="info-card__header">
                     Additional Batch Codes (Optional)
                 </h4>
 
                 <!-- Batch 2 -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                    <div class="form-group" style="margin-bottom: 0;">
+                <div class="form-grid-2 form-grid--spaced">
+                    <div class="form-group">
                         <label for="supplier-useby-2" class="form-label">Use By Date 2</label>
                         <input type="date" id="supplier-useby-2" name="supplier_useby_2" class="form-input">
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label for="supplier-batch-2" class="form-label">Batch Code 2</label>
                         <input type="text" id="supplier-batch-2" name="supplier_batch_code_2" class="form-input" maxlength="50">
                     </div>
                 </div>
 
                 <!-- Batch 3 -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                    <div class="form-group" style="margin-bottom: 0;">
+                <div class="form-grid-2 form-grid--spaced">
+                    <div class="form-group">
                         <label for="supplier-useby-3" class="form-label">Use By Date 3</label>
                         <input type="date" id="supplier-useby-3" name="supplier_useby_3" class="form-input">
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label for="supplier-batch-3" class="form-label">Batch Code 3</label>
                         <input type="text" id="supplier-batch-3" name="supplier_batch_code_3" class="form-input" maxlength="50">
                     </div>
                 </div>
 
                 <!-- Batch 4 -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="form-group" style="margin-bottom: 0;">
+                <div class="form-grid-2">
+                    <div class="form-group">
                         <label for="supplier-useby-4" class="form-label">Use By Date 4</label>
                         <input type="date" id="supplier-useby-4" name="supplier_useby_4" class="form-input">
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label for="supplier-batch-4" class="form-label">Batch Code 4</label>
                         <input type="text" id="supplier-batch-4" name="supplier_batch_code_4" class="form-input" maxlength="50">
                     </div>
@@ -144,7 +144,7 @@ ob_start();
             </div>
 
             <!-- Purchase Order, Haulier, Delivery Note -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+            <div class="form-grid-3">
                 <div class="form-group">
                     <label for="po-number" class="form-label">Purchase Order Number</label>
                     <input type="text" id="po-number" name="po_number" class="form-input" maxlength="50">
@@ -162,14 +162,14 @@ ob_start();
             </div>
 
             <!-- Additional Receipt Information -->
-            <div class="card" style="background-color: var(--bg-secondary); padding: 1rem; margin-bottom: 1.5rem;">
-                <h4 style="margin-bottom: 1rem; font-size: 0.938rem; color: var(--text-secondary);">
+            <div class="info-card">
+                <h4 class="info-card__header">
                     Additional Information (Optional)
                 </h4>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="form-grid-3 form-grid--spaced">
                     <!-- Silo Assignment -->
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label for="silo-no" class="form-label">Silo No.</label>
                         <select id="silo-no" name="silo_no" class="form-select">
                             <option value="">Select Silo...</option>
@@ -181,7 +181,7 @@ ob_start();
                     </div>
 
                     <!-- COC/COA Attached -->
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label for="coc-coa-attached" class="form-label">COC/COA Attached?</label>
                         <select id="coc-coa-attached" name="coc_coa_attached" class="form-select">
                             <option value="">Select...</option>
@@ -191,7 +191,7 @@ ob_start();
                     </div>
 
                     <!-- RMA Sheet -->
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label for="rma-sheet" class="form-label">RMA Sheet Attached & Completed?</label>
                         <select id="rma-sheet" name="rma_sheet_completed" class="form-select">
                             <option value="">Select...</option>
@@ -201,9 +201,9 @@ ob_start();
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="form-grid-2 form-grid--spaced">
                     <!-- Matches Delivery Note -->
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label for="matches-delivery" class="form-label">Matches Delivery Note?</label>
                         <select id="matches-delivery" name="matches_delivery_note" class="form-select">
                             <option value="">Select...</option>
@@ -213,14 +213,14 @@ ob_start();
                     </div>
 
                     <!-- Booked-In Confirmation -->
-                    <div class="form-group" style="margin-bottom: 0;">
+                    <div class="form-group">
                         <label for="bookin-confirmation" class="form-label">Booked-In Confirmation No.</label>
                         <input type="text" id="bookin-confirmation" name="bookin_confirmation_no" class="form-input" maxlength="50">
                     </div>
                 </div>
 
                 <!-- Comments -->
-                <div class="form-group" style="margin-bottom: 0;">
+                <div class="form-group">
                     <label for="receipt-comments" class="form-label">Comments</label>
                     <textarea id="receipt-comments" name="receipt_comments" class="form-textarea" rows="3" placeholder="Additional notes or comments about this receipt..."></textarea>
                 </div>
@@ -240,13 +240,13 @@ ob_start();
 </div>
 
 <!-- Recent Receipts -->
-<div class="card" style="margin-top: 2rem;">
+<div class="card mt-lg">
     <div class="card__header">
         <h3 class="card__title">Recent Receipts (Today)</h3>
     </div>
     <div class="card__body">
         <div id="recent-receipts">
-            <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+            <p class="loading-text">
                 Loading recent receipts...
             </p>
         </div>

@@ -6,10 +6,43 @@
 class RejectedStockManager {
   constructor() {
     this.init();
+    this.initModalClose();
   }
 
   init() {
     this.loadRejectedStock();
+  }
+
+  /**
+   * Initialize modal close functionality
+   */
+  initModalClose() {
+    // Close modals when clicking close button or backdrop
+    document.querySelectorAll(".modal").forEach((modal) => {
+      // Close button
+      const closeBtn = modal.querySelector(".modal__close");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+          modal.classList.remove("modal--visible");
+        });
+      }
+
+      // Backdrop click (click on overlay, not dialog)
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.remove("modal--visible");
+        }
+      });
+    });
+
+    // ESC key to close modals
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal--visible").forEach((modal) => {
+          modal.classList.remove("modal--visible");
+        });
+      }
+    });
   }
 
   /**
@@ -228,7 +261,7 @@ class RejectedStockManager {
         `;
 
     document.getElementById("batch-detail-content").innerHTML = content;
-    document.getElementById("batch-detail-modal").style.display = "flex";
+    document.getElementById("batch-detail-modal").classList.add("modal--visible");
   }
 }
 

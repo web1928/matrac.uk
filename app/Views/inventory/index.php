@@ -14,40 +14,40 @@ ob_start();
 <h1 class="page-title">Inventory</h1>
 
 <!-- Summary Cards -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+<div class="stats-grid stats-grid--compact">
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value stats-card__value--md stats-card__value--accent">
                 <?= h($summary['total_batches'] ?? 0) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.875rem;">Total Batches</div>
+            <div class="stats-card__label stats-card__label--sm">Total Batches</div>
         </div>
     </div>
 
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value stats-card__value--md stats-card__value--accent">
                 <?= h($summary['available_batches'] ?? 0) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.875rem;">Available</div>
+            <div class="stats-card__label stats-card__label--sm">Available</div>
         </div>
     </div>
 
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value stats-card__value--md stats-card__value--accent">
                 <?= h($summary['onhold_batches'] ?? 0) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.875rem;">On Hold</div>
+            <div class="stats-card__label stats-card__label--sm">On Hold</div>
         </div>
     </div>
 
     <div class="card">
-        <div class="card__body" style="text-align: center;">
-            <div style="font-size: 2rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem;">
+        <div class="card__body stats-card__body">
+            <div class="stats-card__value stats-card__value--md stats-card__value--accent">
                 <?= h($summary['stages_active'] ?? 0) ?>
             </div>
-            <div style="color: var(--text-secondary); font-size: 0.875rem;">Stages Active</div>
+            <div class="stats-card__label stats-card__label--sm">Stages Active</div>
         </div>
     </div>
 </div>
@@ -56,8 +56,8 @@ ob_start();
 <div class="card">
     <div class="card__body">
         <form method="GET" action="<?= url('/inventory') ?>">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: end;">
-                <div class="form-group" style="margin-bottom: 0;">
+            <div class="filter-grid">
+                <div class="form-group">
                     <label for="filter-material" class="form-label">Material</label>
                     <input
                         type="text"
@@ -68,7 +68,7 @@ ob_start();
                         value="<?= h($filterMaterial) ?>">
                 </div>
 
-                <div class="form-group" style="margin-bottom: 0;">
+                <div class="form-group">
                     <label for="filter-stage" class="form-label">Stage</label>
                     <select id="filter-stage" name="stage" class="form-select">
                         <option value="">All Stages</option>
@@ -80,7 +80,7 @@ ob_start();
                     </select>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 0;">
+                <div class="form-group">
                     <label for="filter-status" class="form-label">Status</label>
                     <select id="filter-status" name="status" class="form-select">
                         <option value="">All Statuses</option>
@@ -103,7 +103,7 @@ ob_start();
 </div>
 
 <!-- Inventory Table (PHP-RENDERED!) -->
-<div class="card" style="margin-top: 2rem;">
+<div class="card mt-lg">
     <div class="card__header">
         <h3 class="card__title">Current Inventory</h3>
     </div>
@@ -188,32 +188,32 @@ ob_start();
 </div>
 
 <!-- Batch Detail Modal -->
-<div id="batch-detail-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
-    <div style="background: var(--bg-primary); border-radius: 8px; max-width: 800px; max-height: 90vh; overflow-y: auto; margin: 2rem;">
-        <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="margin: 0;">Batch Details</h3>
-            <button onclick="document.getElementById('batch-detail-modal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);">&times;</button>
+<div id="batch-detail-modal" class="modal">
+    <div class="modal__dialog modal__dialog--lg">
+        <div class="modal__header">
+            <h3 class="modal__title">Batch Details</h3>
+            <button class="modal__close">&times;</button>
         </div>
-        <div id="batch-detail-content" style="padding: 1.5rem;">
+        <div id="batch-detail-content" class="modal__body">
             <!-- Content loaded dynamically -->
         </div>
     </div>
 </div>
 
 <!-- QA Action Modal -->
-<div id="qa-action-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
-    <div style="background: var(--bg-primary); border-radius: 8px; width: 500px; margin: 2rem;">
-        <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="margin: 0;" id="qa-modal-title">QA Action</h3>
-            <button onclick="document.getElementById('qa-action-modal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);">&times;</button>
+<div id="qa-action-modal" class="modal">
+    <div class="modal__dialog modal__dialog--fixed">
+        <div class="modal__header">
+            <h3 class="modal__title" id="qa-modal-title">QA Action</h3>
+            <button class="modal__close">&times;</button>
         </div>
-        <div style="padding: 1.5rem;">
+        <div class="modal__body">
             <form id="qa-action-form">
                 <input type="hidden" name="csrf_token" value="<?= h(generateCsrfToken()) ?>">
                 <input type="hidden" id="qa-inventory-id" name="inventory_id">
                 <input type="hidden" id="qa-action-type" name="action_type">
 
-                <div id="qa-batch-info" style="background: var(--bg-secondary); padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                <div id="qa-batch-info" class="modal__info-box">
                     <!-- Batch info loaded dynamically -->
                 </div>
 
@@ -244,7 +244,7 @@ ob_start();
                 </div>
 
                 <div class="form-actions form-actions--right">
-                    <button type="button" class="btn btn--secondary" onclick="document.getElementById('qa-action-modal').style.display='none'">
+                    <button type="button" class="btn btn--secondary" id="qa-cancel-btn">
                         Cancel
                     </button>
                     <button type="submit" class="btn btn--primary" id="qa-submit-btn">
