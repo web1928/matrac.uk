@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Matrac\Framework;
 
 /**
  * Router Class

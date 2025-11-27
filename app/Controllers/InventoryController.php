@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Core\Controller;
+use Matrac\Framework\Controller;
 
 class InventoryController extends Controller
 {

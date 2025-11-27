@@ -5,8 +5,9 @@ $breadcrumbs = [
     ['label' => 'Dashboard', 'url' => null]
 ];
 
+
 // Start output buffering for layout
-ob_start();
+ob_start()
 ?>
 
 <h1 class="page-title">Dashboard</h1>
@@ -220,5 +221,5 @@ ob_start();
 $content = ob_get_clean();
 
 // Include layout
-include __DIR__ . '/../layouts/main.php';
+include ROOT_PATH . '/App/Views/layouts/main.php';
 ?>

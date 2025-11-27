@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Core\Model;
+use Matrac\Framework\Model;
 
 /**
  * Supplier Model

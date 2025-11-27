@@ -130,18 +130,6 @@ function validateCsrfToken($token)
 }
 
 
-
-/**
- * Sanitize output for HTML display
- * Prevents XSS attacks
- * 
- * @param string $string String to sanitize
- * @return string Sanitized string
- */
-// function h($string) {
-//     return htmlspecialchars($string ?? '', ENT_QUOTES, 'UTF-8');
-// }
-
 /**
  * Check if user has specific role
  * 

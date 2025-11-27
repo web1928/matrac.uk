@@ -14,7 +14,7 @@ $currentPath = parse_url($currentUri, PHP_URL_PATH);
 $menuItems = [
     ['label' => 'Dashboard', 'url' => '/dashboard', 'roles' => ['all']],
     ['label' => 'Goods Receipt', 'url' => '/goods-receipt', 'roles' => ['admin', 'goods_receptor', 'manager']],
-    ['label' => 'Deboxing/Tempering', 'url' => '/deboxing', 'roles' => ['admin', 'goods_issuer', 'manager']],
+    // ['label' => 'Deboxing/Tempering', 'url' => '/deboxing', 'roles' => ['admin', 'goods_issuer', 'manager']],
     ['label' => 'Goods Issue', 'url' => '/goods-issue', 'roles' => ['admin', 'goods_issuer', 'manager']],
     ['label' => 'Mixing', 'url' => '/mixing', 'roles' => ['admin', 'mixer', 'manager']],
     ['label' => 'Active Mixes', 'url' => '/active-mixes', 'roles' => ['admin', 'mixer', 'manager']],

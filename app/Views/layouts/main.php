@@ -83,7 +83,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer__left">
-            <span>MatraC v1.0.0-dev</span>
+            <span>MatraC v1.0.6-Alpha</span>
             <span>&copy; <?= date('Y') ?> Material Traceability System</span>
         </div>
         <div class="footer__right">

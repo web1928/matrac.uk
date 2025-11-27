@@ -7,6 +7,8 @@
 function loadEnv($path)
 {
     if (!file_exists($path)) {
+
+        throw new Exception(".env file not found at $path");
         return;
     }
 

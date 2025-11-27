@@ -44,7 +44,7 @@ function getDbConnection()
             DB_CHARSET
         );
 
-        $options = [
+        $dbOptions = [
             // Throw exceptions on errors (easier to debug)
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 
@@ -58,15 +58,16 @@ function getDbConnection()
             PDO::ATTR_TIMEOUT => 5,
         ];
 
-        $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        $pdo = new PDO($dsn, DB_USER, DB_PASS, $dbOptions);
 
         return $pdo;
     } catch (PDOException $e) {
         // Log error securely (don't expose credentials)
-        error_log("Database Connection Error: " . $e->getMessage());
+        throw new Exception($e);
+        // error_log("Database Connection Error: " . $e->getMessage());
 
         // Display generic error to user (never expose DB details)
-        die("Database connection failed. Please contact support.");
+        // errorHandler("Database connection failed. Please contact support.");
     }
 }
 

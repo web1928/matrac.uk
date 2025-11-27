@@ -2,7 +2,7 @@
 
 namespace App\Middleware;
 
-use Core\Middleware;
+use Matrac\Framework\Middleware;
 
 /**
  * CSRF Middleware

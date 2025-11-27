@@ -52,7 +52,8 @@
 }
 
 .table tbody tr:hover {
-  background-color: var(--bg-secondary);
+  /* background-color: var(--bg-secondary); */
+  background-color: #e4edf5 !important;
 }
 
 .table td {
@@ -76,7 +77,6 @@
 /* Striped table */
 .table--striped tbody tr:nth-child(even) {
   background-color: var(--bg-secondary);
-  background-color: #f5e6e4;
 }
 
 /* Compact table */
@@ -148,6 +148,7 @@
 
 .table-action-btn:hover {
   background-color: var(--accent);
+  background-color: #4179a7 !important;
   color: var(--text-inverse);
   border-color: var(--accent);
 }

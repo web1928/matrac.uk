@@ -1,10 +1,11 @@
 <?php
 
-namespace Core;
+namespace Matrac\Framework;
+
+use Matrac\Framework\Request;
 
 /**
- * Base Controller
- * All controllers extend this
+ * Base Controller Extending all Controllers
  */
 class Controller
 {
@@ -15,16 +16,14 @@ class Controller
         $this->request = new Request();
     }
 
-    /**
-     * Render a view
-     */
+    /* Renderview */
     protected function view($view, $data = [])
     {
         // Extract data to variables
         extract($data);
 
         // Build view path
-        $viewPath = ROOT_PATH . '/app/Views/' . str_replace('.', '/', $view) . '.php';
+        $viewPath = ROOT_PATH . '/App/Views/' . str_replace('.', '/', $view) . '.php';
 
         if (!file_exists($viewPath)) {
             die("View {$view} not found at {$viewPath}");
@@ -43,9 +42,7 @@ class Controller
         echo $content;
     }
 
-    /**
-     * Return JSON response
-     */
+    /* Return JSON response */
     protected function json($data, $statusCode = 200)
     {
         http_response_code($statusCode);
@@ -54,26 +51,20 @@ class Controller
         exit;
     }
 
-    /**
-     * Redirect to URL
-     */
+    /* Redirect to URL */
     protected function redirect($path, $statusCode = 302)
     {
         header('Location: ' . url($path), true, $statusCode);
         exit;
     }
 
-    /**
-     * Set flash message
-     */
+    /* Set flash message */
     protected function flash($key, $message)
     {
         $_SESSION['flash'][$key] = $message;
     }
 
-    /**
-     * Validate CSRF token
-     */
+    /* Validate CSRF token */
     protected function validateCsrf()
     {
         $token = $this->request->input('csrf_token');
@@ -83,9 +74,7 @@ class Controller
         }
     }
 
-    /**
-     * Abort with error
-     */
+    /* Abort with error */
     protected function abort($code, $message = null)
     {
         http_response_code($code);

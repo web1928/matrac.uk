@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Core\Controller;
+use Matrac\Framework\Controller;
 use App\Models\Material;
 use App\Models\Supplier;
 use App\Models\Batch;

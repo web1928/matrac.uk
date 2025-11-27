@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Core\Controller;
+use Matrac\Framework\Controller;
 
 class AuthController extends Controller
 {
@@ -38,7 +38,7 @@ class AuthController extends Controller
         // Phase 3 will use database authentication
         $testUsers = [
             'admin' => [
-                'password' => 'admin123',
+                'password' => '$araH_1975!',
                 'role' => 'admin',
                 'first_name' => 'Danny',
                 'last_name' => 'Mason',

@@ -1,0 +1,19 @@
+{
+    "name": "web1928/matrac.uk",
+    "description": "MatraC Material Traceability Application",
+    "authors": [
+        {
+            "name": "Danny Mason",
+            "email": "web1928@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Matrac\\Framework\\": "Framework/",
+            "App\\": "App/"
+        }
+    }
+}

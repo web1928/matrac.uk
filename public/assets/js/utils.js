@@ -84,8 +84,8 @@ function createAlertContainer() {
   container.className = "alert-container";
   container.style.cssText = `
         position: fixed;
-        top: 80px;
-        right: 20px;
+        top: 100px;
+        right: calc(50% - 200px);
         z-index: 9999;
         max-width: 400px;
     `;

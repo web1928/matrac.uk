@@ -4,6 +4,7 @@
  * Global Helper Functions
  */
 
+
 /**
  * Generate URL
  */
@@ -29,26 +30,26 @@ function asset($path)
 /**
  * Get configuration value
  */
-function config($key, $default = null)
-{
-    static $config = [];
+// function config($key, $default = null)
+// {
+//     static $config = [];
 
-    if (empty($config)) {
-        $config = require ROOT_PATH . '/config/app.php';
-    }
+//     if (empty($config)) {
+//         $config = require ROOT_PATH . '/config/app.php';
+//     }
 
-    $keys = explode('.', $key);
-    $value = $config;
+//     $keys = explode('.', $key);
+//     $value = $config;
 
-    foreach ($keys as $k) {
-        if (!isset($value[$k])) {
-            return $default;
-        }
-        $value = $value[$k];
-    }
+//     foreach ($keys as $k) {
+//         if (!isset($value[$k])) {
+//             return $default;
+//         }
+//         $value = $value[$k];
+//     }
 
-    return $value;
-}
+//     return $value;
+// }
 
 /**
  * HTML escape

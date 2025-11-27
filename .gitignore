@@ -32,6 +32,7 @@ error_log
 tmp/
 temp/
 cache/
+logs/
 
 # Uploaded Files (if you add upload functionality)
 uploads/
@@ -47,6 +48,7 @@ package-lock.json
 yarn.lock
 
 # Database Backups
+/sql/
 *.sql
 !sql/schema.sql
 !sql/*_schema.sql

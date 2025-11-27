@@ -6,6 +6,7 @@ $breadcrumbs = [
     ['label' => 'Inventory', 'url' => null]
 ];
 $additionalScripts = ['js/pages/inventory.js'];
+echo $a;
 
 // Start output buffering for layout
 ob_start();
