@@ -4,97 +4,108 @@
  * Provides: Autocomplete, AJAX submission, Recent receipts
  */
 
-class GoodsReceiptManager {
-  constructor() {
-    this.materialInput = document.getElementById("material-search");
-    this.materialIdInput = document.getElementById("material-id");
-    this.materialDropdown = document.getElementById("material-dropdown");
+document.addEventListener("DOMContentLoaded", () => {
+  const materialInput = document.getElementById("material-search");
+  const materialIdInput = document.getElementById("material-id");
+  const materialDropdown = document.getElementById("material-dropdown");
 
-    this.supplierInput = document.getElementById("supplier-search");
-    this.supplierIdInput = document.getElementById("supplier-id");
-    this.supplierDropdown = document.getElementById("supplier-dropdown");
+  const supplierInput = document.getElementById("supplier-search");
+  const supplierIdInput = document.getElementById("supplier-id");
+  const supplierDropdown = document.getElementById("supplier-dropdown");
 
-    this.quantityUom = document.getElementById("quantity-uom");
-    this.form = document.getElementById("goods-receipt-form");
+  const quantityUom = document.getElementById("quantity-uom");
+  const form = document.getElementById("goods-receipt-form");
 
-    this.selectedMaterial = null;
-
-    this.init();
-  }
-
-  init() {
-    // Material autocomplete
-    if (this.materialInput) {
-      this.materialInput.addEventListener(
-        "input",
-        debounce((e) => this.searchMaterials(e.target.value), 300)
-      );
-
-      // Close dropdown when clicking outside
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest(".autocomplete-wrapper")) {
-          this.materialDropdown.classList.remove("autocomplete-dropdown--visible");
-        }
-      });
-    }
-
-    // Supplier autocomplete
-    if (this.supplierInput) {
-      this.supplierInput.addEventListener(
-        "input",
-        debounce((e) => this.searchSuppliers(e.target.value), 300)
-      );
-
-      // Close dropdown when clicking outside
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest(".autocomplete-wrapper")) {
-          this.supplierDropdown.classList.remove("autocomplete-dropdown--visible");
-        }
-      });
-    }
-
-    // Form submission (AJAX for better UX)
-    if (this.form) {
-      this.form.addEventListener("submit", (e) => this.handleSubmit(e));
-    }
-
-    // Load recent receipts
-    this.loadRecentReceipts();
-  }
+  let selectedMaterial = null;
 
   /**
    * Search materials via API
    */
-  async searchMaterials(query) {
+  // async function searchMaterials(query) {
+  const searchMaterials = async (query) => {
     if (query.length < 3) {
-      this.materialDropdown.classList.remove("autocomplete-dropdown--visible");
+      materialDropdown.classList.remove("autocomplete-dropdown--visible");
       return;
     }
 
     try {
       const results = await apiRequest(`materials/search?q=${encodeURIComponent(query)}`);
 
-      this.displayMaterialResults(results);
+      displayMaterialResults(results);
     } catch (error) {
       console.error("Material search error:", error);
     }
+  };
+
+  /**
+   * Search suppliers via API
+   */
+  const searchSuppliers = async (query) => {
+    if (query.length < 3) {
+      supplierDropdown.classList.remove("autocomplete-dropdown--visible");
+      return;
+    }
+
+    try {
+      const results = await apiRequest(`suppliers/search?q=${query}`);
+
+      displaySupplierResults(results);
+    } catch (error) {
+      console.error("Supplier search error:", error);
+    }
+  };
+
+  // Material autocomplete
+  if (materialInput) {
+    materialInput.addEventListener("input", (e) => {
+      const val = encodeURIComponent(e.target.value);
+
+      debounce(searchMaterials(val), 300);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".autocomplete-wrapper")) {
+        materialDropdown.classList.remove("autocomplete-dropdown--visible");
+      }
+    });
+  }
+
+  // Supplier autocomplete
+  if (supplierInput) {
+    supplierInput.addEventListener(
+      "input",
+      debounce((e) => searchSuppliers(e.target.value), 300)
+    );
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".autocomplete-wrapper")) {
+        supplierDropdown.classList.remove("autocomplete-dropdown--visible");
+      }
+    });
+  }
+
+  // Form submission (AJAX for better UX)
+  if (form) {
+    form.addEventListener("submit", (e) => handleSubmit(e));
   }
 
   /**
    * Display material search results
    */
-  displayMaterialResults(results) {
+  function displayMaterialResults(results) {
     if (!results || results.length === 0) {
-      this.materialDropdown.innerHTML = `
+      materialDropdown.innerHTML = `
                 <div class="autocomplete-item" style="color: var(--text-secondary);">
                     No materials found
                 </div>
             `;
-      this.materialDropdown.classList.add("autocomplete-dropdown--visible");
+      materialDropdown.classList.add("autocomplete-dropdown--visible");
       return;
     }
 
-    this.materialDropdown.innerHTML = results
+    materialDropdown.innerHTML = results
       .map(
         (material) => `
             <div class="autocomplete-item" data-id="${material.material_id}" data-uom="${escapeHtml(
@@ -112,72 +123,54 @@ class GoodsReceiptManager {
       .join("");
 
     // Add click handlers
-    this.materialDropdown.querySelectorAll(".autocomplete-item").forEach((item) => {
-      item.addEventListener("click", () => this.selectMaterial(item));
+    materialDropdown.querySelectorAll(".autocomplete-item").forEach((item) => {
+      item.addEventListener("click", () => selectMaterial(item));
     });
 
-    this.materialDropdown.classList.add("autocomplete-dropdown--visible");
+    materialDropdown.classList.add("autocomplete-dropdown--visible");
   }
 
   /**
    * Select a material from dropdown
    */
-  selectMaterial(item) {
+  function selectMaterial(item) {
     const materialId = item.dataset.id;
     const uom = item.dataset.uom;
     const text = item.querySelector(".autocomplete-item__primary").textContent.trim();
 
     // Set hidden input
-    this.materialIdInput.value = materialId;
+    materialIdInput.value = materialId;
 
     // Set visible input
-    this.materialInput.value = text;
+    materialInput.value = text;
 
     // Update UOM badge
-    if (this.quantityUom) {
-      this.quantityUom.textContent = uom;
+    if (quantityUom) {
+      quantityUom.textContent = uom;
     }
 
     // Store selected material
-    this.selectedMaterial = { id: materialId, uom: uom };
+    selectedMaterial = { id: materialId, uom: uom };
 
     // Hide dropdown
-    this.materialDropdown.classList.remove("autocomplete-dropdown--visible");
-  }
-
-  /**
-   * Search suppliers via API
-   */
-  async searchSuppliers(query) {
-    if (query.length < 3) {
-      this.supplierDropdown.classList.remove("autocomplete-dropdown--visible");
-      return;
-    }
-
-    try {
-      const results = await apiRequest(`suppliers/search?q=${encodeURIComponent(query)}`);
-
-      this.displaySupplierResults(results);
-    } catch (error) {
-      console.error("Supplier search error:", error);
-    }
+    materialDropdown.classList.remove("autocomplete-dropdown--visible");
   }
 
   /**
    * Display supplier search results
    */
-  displaySupplierResults(results) {
+  function displaySupplierResults(results) {
     if (!results || results.length === 0) {
-      this.supplierDropdown.innerHTML = `
+      supplierDropdown.innerHTML = `
                 <div class="autocomplete-item" style="color: var(--text-secondary);">
                     No suppliers found
                 </div>
             `;
-      this.supplierDropdown.classList.add("autocomplete-dropdown--visible");
+      supplierDropdown.classList.add("autocomplete-dropdown--visible");
       return;
     }
 
-    this.supplierDropdown.innerHTML = results
+    supplierDropdown.innerHTML = results
       .map(
         (supplier) => `
             <div class="autocomplete-item" data-id="${supplier.supplier_id}">
@@ -197,44 +190,44 @@ class GoodsReceiptManager {
       .join("");
 
     // Add click handlers
-    this.supplierDropdown.querySelectorAll(".autocomplete-item").forEach((item) => {
-      item.addEventListener("click", () => this.selectSupplier(item));
+    supplierDropdown.querySelectorAll(".autocomplete-item").forEach((item) => {
+      item.addEventListener("click", () => selectSupplier(item));
     });
 
-    this.supplierDropdown.classList.add("autocomplete-dropdown--visible");
+    supplierDropdown.classList.add("autocomplete-dropdown--visible");
   }
 
   /**
    * Select a supplier from dropdown
    */
-  selectSupplier(item) {
+  function selectSupplier(item) {
     const supplierId = item.dataset.id;
     const text = item.querySelector(".autocomplete-item__primary").textContent.trim();
 
     // Set hidden input
-    this.supplierIdInput.value = supplierId;
+    supplierIdInput.value = supplierId;
 
     // Set visible input
-    this.supplierInput.value = text;
+    supplierInput.value = text;
 
     // Hide dropdown
-    this.supplierDropdown.classList.remove("autocomplete-dropdown--visible");
+    supplierDropdown.classList.remove("autocomplete-dropdown--visible");
   }
 
   /**
    * Handle form submission (AJAX)
    */
-  async handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate material selected
-    if (!this.materialIdInput.value) {
+    if (!materialIdInput.value) {
       showAlert("Please select a material from the dropdown", "error");
       return;
     }
 
     // Validate supplier selected
-    if (!this.supplierIdInput.value) {
+    if (!supplierIdInput.value) {
       showAlert("Please select a supplier from the dropdown", "error");
       return;
     }
@@ -248,7 +241,7 @@ class GoodsReceiptManager {
 
     try {
       // Get form data
-      const formData = new FormData(this.form);
+      const formData = new FormData(form);
 
       // Submit via fetch (using FormData)
       const response = await fetch(url("/goods-receipt"), {
@@ -263,15 +256,15 @@ class GoodsReceiptManager {
         showAlert(`✓ Material received successfully! Batch code: ${result.batch_code}`, "success", 7000);
 
         // Reset form
-        this.form.reset();
-        this.materialIdInput.value = "";
-        this.supplierIdInput.value = "";
-        if (this.quantityUom) {
-          this.quantityUom.textContent = "-";
+        form.reset();
+        materialIdInput.value = "";
+        supplierIdInput.value = "";
+        if (quantityUom) {
+          quantityUom.textContent = "-";
         }
 
         // Reload recent receipts
-        this.loadRecentReceipts();
+        loadRecentReceipts();
 
         // Re-enable button
         submitBtn.disabled = false;
@@ -292,12 +285,12 @@ class GoodsReceiptManager {
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
     }
-  }
+  };
 
   /**
    * Load recent receipts (today's receipts)
    */
-  async loadRecentReceipts() {
+  const loadRecentReceipts = async () => {
     const container = document.getElementById("recent-receipts");
 
     if (!container) return;
@@ -306,7 +299,7 @@ class GoodsReceiptManager {
       const response = await apiRequest("receipts/recent");
 
       if (response.success && response.receipts) {
-        this.displayRecentReceipts(response.receipts);
+        displayRecentReceipts(response.receipts);
       } else {
         container.innerHTML = `
                     <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
@@ -322,12 +315,15 @@ class GoodsReceiptManager {
                 </p>
             `;
     }
-  }
+  };
+
+  // Load recent receipts
+  loadRecentReceipts();
 
   /**
    * Display recent receipts in table
    */
-  displayRecentReceipts(receipts) {
+  function displayRecentReceipts(receipts) {
     const container = document.getElementById("recent-receipts");
 
     if (receipts.length === 0) {
@@ -373,9 +369,4 @@ class GoodsReceiptManager {
             </table>
         `;
   }
-}
-
-// Initialize when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-  window.goodsReceiptManager = new GoodsReceiptManager();
 });

@@ -8,34 +8,34 @@
    FORM GROUPS
    ============================================ */
 .form-group {
-    margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
 }
 
 .form-group--inline {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
 }
 
 /* ============================================
    LABELS
    ============================================ */
 .form-label {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    font-weight: 500;
-    color: var(--text-primary);
-    font-size: 0.938rem;
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.938rem;
 }
 
 .form-label--required::after {
-    content: " *";
-    color: #666666;
+  content: " *";
+  color: #666666;
 }
 
 .form-label--inline {
-    margin-bottom: 0;
-    margin-right: var(--spacing-sm);
+  margin-bottom: 0;
+  margin-right: var(--spacing-sm);
 }
 
 /* ============================================
@@ -44,54 +44,54 @@
 .form-input,
 .form-select,
 .form-textarea {
-    width: 100%;
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--text-primary);
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(74, 74, 74, 0.1);
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(74, 74, 74, 0.1);
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 .form-input:disabled,
 .form-select:disabled,
 .form-textarea:disabled {
-    background-color: var(--bg-secondary);
-    color: var(--text-secondary);
-    cursor: not-allowed;
-    opacity: 0.6;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Textarea specific */
 .form-textarea {
-    min-height: 100px;
-    resize: vertical;
+  min-height: 100px;
+  resize: vertical;
 }
 
 /* Select specific */
 .form-select {
-    cursor: pointer;
-    padding-right: var(--spacing-xl);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right var(--spacing-md) center;
-    background-size: 12px;
-    appearance: none;
+  cursor: pointer;
+  padding-right: var(--spacing-xl);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-md) center;
+  background-size: 12px;
+  appearance: none;
 }
 
 /* ============================================
@@ -99,14 +99,14 @@
    ============================================ */
 .form-input--sm,
 .form-select--sm {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: 0.875rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.875rem;
 }
 
 .form-input--lg,
 .form-select--lg {
-    padding: var(--spacing-md) var(--spacing-lg);
-    font-size: 1.125rem;
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 1.125rem;
 }
 
 /* ============================================
@@ -115,195 +115,196 @@
 .form-input--valid,
 .form-select--valid,
 .form-textarea--valid {
-    border-color: #888888;
+  border-color: #888888;
 }
 
 .form-input--invalid,
 .form-select--invalid,
 .form-textarea--invalid {
-    border-color: #333333;
+  border-color: #333333;
 }
 
 .form-input--valid:focus,
 .form-select--valid:focus,
 .form-textarea--valid:focus {
-    box-shadow: 0 0 0 3px rgba(136, 136, 136, 0.15);
+  box-shadow: 0 0 0 3px rgba(136, 136, 136, 0.15);
 }
 
 .form-input--invalid:focus,
 .form-select--invalid:focus,
 .form-textarea--invalid:focus {
-    box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.15);
+  box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.15);
 }
 
 /* ============================================
    HELP TEXT & ERROR MESSAGES
    ============================================ */
 .form-help {
-    display: block;
-    margin-top: var(--spacing-xs);
-    font-size: 0.875rem;
-    color: var(--text-secondary);
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
 .form-error {
-    display: block;
-    margin-top: var(--spacing-xs);
-    font-size: 0.875rem;
-    color: #333333;
-    font-weight: 500;
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: 0.875rem;
+  color: #333333;
+  font-weight: 500;
 }
 
 .form-success {
-    display: block;
-    margin-top: var(--spacing-xs);
-    font-size: 0.875rem;
-    color: #888888;
-    font-weight: 500;
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: 0.875rem;
+  color: #888888;
+  font-weight: 500;
 }
 
 /* ============================================
    CHECKBOXES & RADIO BUTTONS
    ============================================ */
 .form-check {
-    display: flex;
-    align-items: center;
-    margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
 }
 
 .form-check__input {
-    width: 18px;
-    height: 18px;
-    margin-right: var(--spacing-sm);
-    cursor: pointer;
-    accent-color: var(--accent);
+  width: 18px;
+  height: 18px;
+  margin-right: var(--spacing-sm);
+  cursor: pointer;
+  accent-color: var(--accent);
 }
 
 .form-check__label {
-    cursor: pointer;
-    user-select: none;
-    font-size: 0.938rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.938rem;
 }
 
 .form-check__input:disabled ~ .form-check__label {
-    opacity: 0.6;
-    cursor: not-allowed;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ============================================
    INPUT GROUPS (prefix/suffix)
    ============================================ */
 .input-group {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .input-group .form-input {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 .input-group .form-input:first-child {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 .input-group .form-input:last-child {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .input-group__prefix,
 .input-group__suffix {
-    display: flex;
-    align-items: center;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    white-space: nowrap;
-    font-size: 0.938rem;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  font-size: 0.938rem;
 }
 
 .input-group__prefix {
-    border-right: none;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+  border-right: none;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 .input-group__suffix {
-    border-left: none;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+  border-left: none;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 /* ============================================
    AUTOCOMPLETE DROPDOWN
    ============================================ */
 .autocomplete-wrapper {
-    position: relative;
+  position: relative;
 }
 
 .autocomplete-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    max-height: 250px;
-    overflow-y: auto;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    box-shadow: var(--shadow-md);
-    z-index: 10;
-    display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+  display: none;
+  z-index: 1000;
 }
 
 .autocomplete-dropdown--visible {
-    display: block;
+  display: block;
 }
 
 .autocomplete-item {
-    padding: var(--spacing-sm) var(--spacing-md);
-    cursor: pointer;
-    transition: background-color 0.15s ease;
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
 }
 
 .autocomplete-item:hover,
 .autocomplete-item--active {
-    background-color: var(--bg-secondary);
+  background-color: var(--bg-secondary);
 }
 
 .autocomplete-item__primary {
-    font-weight: 500;
-    color: var(--text-primary);
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .autocomplete-item__secondary {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin-top: 2px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
 }
 
 /* ============================================
    FORM ACTIONS
    ============================================ */
 .form-actions {
-    display: flex;
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-xl);
-    padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--border-light);
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-light);
 }
 
 .form-actions--right {
-    justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 .form-actions--center {
-    justify-content: center;
+  justify-content: center;
 }
 
 .form-actions--space-between {
-    justify-content: space-between;
+  justify-content: space-between;
 }

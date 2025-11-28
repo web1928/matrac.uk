@@ -6,7 +6,6 @@ $breadcrumbs = [
     ['label' => 'Inventory', 'url' => null]
 ];
 $additionalScripts = ['js/pages/inventory.js'];
-echo $a;
 
 // Start output buffering for layout
 ob_start();
@@ -59,14 +58,18 @@ ob_start();
         <form method="GET" action="<?= url('/inventory') ?>">
             <div class="filter-grid">
                 <div class="form-group">
-                    <label for="filter-material" class="form-label">Material</label>
-                    <input
-                        type="text"
-                        id="filter-material"
-                        name="material"
-                        class="form-input"
-                        placeholder="Search material..."
-                        value="<?= h($filterMaterial) ?>">
+                    <!-- <label for="filter-material" class="form-label">Material</label> -->
+                    <label for="material-search" class="form-label">Material</label>
+                    <div class="autocomplete-wrapper">
+                        <input
+                            type="text"
+                            id="material-search"
+                            name="material"
+                            class="form-input"
+                            placeholder="Search material..."
+                            value="<?= h($filterMaterial) ?>">
+                        <div id="material-dropdown" class="autocomplete-dropdown"></div>
+                    </div>
                 </div>
 
                 <div class="form-group">

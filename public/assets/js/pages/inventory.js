@@ -8,6 +8,15 @@
  * Initialize modal close functionality
  */
 document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("qa-action-form");
+  const cancelBtn = document.getElementById("qa-cancel-btn");
+
+  const materialInput = document.getElementById("material-search");
+  const materialIdInput = document.getElementById("material-id");
+  const materialDropdown = document.getElementById("material-dropdown");
+
+  let selectedMaterial = null;
+
   // Close modals when clicking close button or backdrop
   document.querySelectorAll(".modal").forEach((modal) => {
     // Close button
@@ -35,9 +44,87 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // QA Form submission handler
-  const form = document.getElementById("qa-action-form");
+  /**
+   * Search materials via API
+   */
+  const searchMaterials = async (query) => {
+    if (query.length < 3) {
+      materialDropdown.classList.remove("autocomplete-dropdown--visible");
+      return;
+    }
 
+    try {
+      const results = await apiRequest(`materials/search?q=${encodeURIComponent(query)}`);
+
+      displayMaterialResults(results);
+    } catch (error) {
+      console.error("Material search error:", error);
+    }
+  };
+
+  // Material autocomplete
+  if (materialInput) {
+    materialInput.addEventListener(
+      "input",
+      debounce((e) => searchMaterials(e.target.value), 300)
+    );
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".autocomplete-wrapper")) {
+        materialDropdown.classList.remove("autocomplete-dropdown--visible");
+      }
+    });
+  }
+
+  /**
+   * Display material search results
+   */
+  function displayMaterialResults(results) {
+    if (!results || results.length === 0) {
+      materialDropdown.innerHTML = `
+                <div class="autocomplete-item" style="color: var(--text-secondary);">
+                    No materials found
+                </div>
+            `;
+      materialDropdown.classList.add("autocomplete-dropdown--visible");
+      return;
+    }
+
+    materialDropdown.innerHTML = results
+      .map(
+        (material) => `
+            <div class="autocomplete-item" data-id="${material.material_id}">
+                <div class="autocomplete-item__primary">
+                    ${escapeHtml(material.code)} - ${escapeHtml(material.description)}
+                </div>
+            </div>
+        `
+      )
+      .join("");
+
+    // Add click handlers
+    materialDropdown.querySelectorAll(".autocomplete-item").forEach((item) => {
+      item.addEventListener("click", () => selectMaterial(item));
+    });
+
+    materialDropdown.classList.add("autocomplete-dropdown--visible");
+  }
+
+  /**
+   * Select a material from dropdown
+   */
+  function selectMaterial(item) {
+    const text = item.querySelector(".autocomplete-item__primary").textContent.trim();
+
+    // Set visible input
+    materialInput.value = text;
+
+    // Hide dropdown
+    materialDropdown.classList.remove("autocomplete-dropdown--visible");
+  }
+
+  // QA Form submission handler
   if (form) {
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -82,7 +169,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // QA Cancel button handler
-  const cancelBtn = document.getElementById("qa-cancel-btn");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
       document.getElementById("qa-action-modal").classList.remove("modal--visible");
