@@ -5,7 +5,7 @@ $breadcrumbs = [
     ['label' => 'Dashboard', 'url' => '/dashboard'],
     ['label' => 'Inventory', 'url' => null]
 ];
-$additionalScripts = ['js/pages/inventory.js'];
+$additionalScripts = ['js/pages/inventory.js', 'js/components/autocomplete.js'];
 
 // Start output buffering for layout
 ob_start();
@@ -55,7 +55,7 @@ ob_start();
 <!-- Filters -->
 <div class="card">
     <div class="card__body">
-        <form method="GET" action="<?= url('/inventory') ?>">
+        <form method="GET" id="inventory-filter" action="<?= url('/inventory') ?>">
             <div class="filter-grid">
                 <div class="form-group">
                     <!-- <label for="filter-material" class="form-label">Material</label> -->

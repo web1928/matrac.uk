@@ -16,6 +16,14 @@ class InventoryController extends Controller
         $filterStage = $this->request->input('stage', 0);
         $filterStatus = $this->request->input('status', 0);
 
+        // Extract material code from autocomplete format (CODE - Description) or use search term as-is
+        if (str_contains($filterMaterial, " - ")) {
+            $parts = explode(" - ", $filterMaterial);
+            $materialSearchString = trim($parts[0]);
+        } else {
+            $materialSearchString = trim($filterMaterial);
+        }
+
         // Build WHERE clauses
         $where = ["i.quantity > 0"];  // Only show non-zero inventory
         $where[] = "hs.status_code != 'REJECTED'";  // Exclude rejected
@@ -23,7 +31,7 @@ class InventoryController extends Controller
 
         if (!empty($filterMaterial)) {
             $where[] = "(m.code LIKE ? OR m.description LIKE ?)";
-            $searchPattern = "%{$filterMaterial}%";
+            $searchPattern = "%{$materialSearchString}%";
             $params[] = $searchPattern;
             $params[] = $searchPattern;
         }
@@ -72,6 +80,7 @@ class InventoryController extends Controller
              ORDER BY b.receipt_date DESC, m.code ASC",
             $params
         );
+
 
         $inventory = $stmt->fetchAll();
 

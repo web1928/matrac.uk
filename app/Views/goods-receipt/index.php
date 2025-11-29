@@ -5,7 +5,7 @@ $breadcrumbs = [
     ['label' => 'Dashboard', 'url' => '/dashboard'],
     ['label' => 'Goods Receipt', 'url' => null]
 ];
-$additionalScripts = ['js/pages/goods-receipt.js'];
+$additionalScripts = ['js/pages/goods-receipt.js', 'js/components/autocomplete.js'];
 
 // Start output buffering for layout
 ob_start();

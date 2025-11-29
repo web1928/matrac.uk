@@ -5,37 +5,14 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const materialInput = document.getElementById("material-search");
   const materialIdInput = document.getElementById("material-id");
-  const materialDropdown = document.getElementById("material-dropdown");
+  const quantityUom = document.getElementById("quantity-uom");
 
   const supplierInput = document.getElementById("supplier-search");
   const supplierIdInput = document.getElementById("supplier-id");
   const supplierDropdown = document.getElementById("supplier-dropdown");
 
-  const quantityUom = document.getElementById("quantity-uom");
   const form = document.getElementById("goods-receipt-form");
-
-  let selectedMaterial = null;
-
-  /**
-   * Search materials via API
-   */
-  // async function searchMaterials(query) {
-  const searchMaterials = async (query) => {
-    if (query.length < 3) {
-      materialDropdown.classList.remove("autocomplete-dropdown--visible");
-      return;
-    }
-
-    try {
-      const results = await apiRequest(`materials/search?q=${encodeURIComponent(query)}`);
-
-      displayMaterialResults(results);
-    } catch (error) {
-      console.error("Material search error:", error);
-    }
-  };
 
   /**
    * Search suppliers via API
@@ -55,22 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Material autocomplete
-  if (materialInput) {
-    materialInput.addEventListener("input", (e) => {
-      const val = encodeURIComponent(e.target.value);
-
-      debounce(searchMaterials(val), 300);
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".autocomplete-wrapper")) {
-        materialDropdown.classList.remove("autocomplete-dropdown--visible");
-      }
-    });
-  }
-
   // Supplier autocomplete
   if (supplierInput) {
     supplierInput.addEventListener(
@@ -89,71 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Form submission (AJAX for better UX)
   if (form) {
     form.addEventListener("submit", (e) => handleSubmit(e));
-  }
-
-  /**
-   * Display material search results
-   */
-  function displayMaterialResults(results) {
-    if (!results || results.length === 0) {
-      materialDropdown.innerHTML = `
-                <div class="autocomplete-item" style="color: var(--text-secondary);">
-                    No materials found
-                </div>
-            `;
-      materialDropdown.classList.add("autocomplete-dropdown--visible");
-      return;
-    }
-
-    materialDropdown.innerHTML = results
-      .map(
-        (material) => `
-            <div class="autocomplete-item" data-id="${material.material_id}" data-uom="${escapeHtml(
-          material.base_uom
-        )}">
-                <div class="autocomplete-item__primary">
-                    ${escapeHtml(material.code)} - ${escapeHtml(material.description)}
-                </div>
-                <div class="autocomplete-item__secondary">
-                    Base UOM: ${escapeHtml(material.base_uom)}
-                </div>
-            </div>
-        `
-      )
-      .join("");
-
-    // Add click handlers
-    materialDropdown.querySelectorAll(".autocomplete-item").forEach((item) => {
-      item.addEventListener("click", () => selectMaterial(item));
-    });
-
-    materialDropdown.classList.add("autocomplete-dropdown--visible");
-  }
-
-  /**
-   * Select a material from dropdown
-   */
-  function selectMaterial(item) {
-    const materialId = item.dataset.id;
-    const uom = item.dataset.uom;
-    const text = item.querySelector(".autocomplete-item__primary").textContent.trim();
-
-    // Set hidden input
-    materialIdInput.value = materialId;
-
-    // Set visible input
-    materialInput.value = text;
-
-    // Update UOM badge
-    if (quantityUom) {
-      quantityUom.textContent = uom;
-    }
-
-    // Store selected material
-    selectedMaterial = { id: materialId, uom: uom };
-
-    // Hide dropdown
-    materialDropdown.classList.remove("autocomplete-dropdown--visible");
   }
 
   /**
