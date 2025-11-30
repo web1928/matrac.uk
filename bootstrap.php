@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 // Define root path
 define('ROOT_PATH', __DIR__);

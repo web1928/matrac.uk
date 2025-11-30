@@ -1,5 +1,4 @@
 <?php
-
 namespace Matrac\Framework;
 
 /**
@@ -26,13 +25,18 @@ class ErrorHandler
 
     /**
      * Handle regular PHP errors (warnings, notices, etc.)
+     * @param $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int $errline
+     * @return bool
      */
     public function handleError(
         $errno,
-        $errstr = 'Unknown Error',
-        $errfile = 'Unknown File',
-        $errline = 0
-    ) {
+        string $errstr = 'Unknown Error',
+        string $errfile = 'Unknown File',
+        int $errline = 0
+    ):bool {
         // Don't handle suppressed errors (@)
         if (!(error_reporting() & $errno)) {
             return false;
@@ -63,7 +67,6 @@ class ErrorHandler
         // Display the exception
         $this->showError('Exception', $message, $file, $line, $trace);
 
-        return true;
     }
 
     /**
@@ -90,8 +93,6 @@ class ErrorHandler
                 $error['line'] ?? 0
             );
         }
-
-        return true;
     }
 
     /**
@@ -195,6 +196,9 @@ class ErrorHandler
      */
     private function getDetailedErrorHtml($errorType, $errstr, $errfile, $errline, $trace = null): string
     {
+        $errFileArray = explode('/', $errfile);
+        $c = count($errFileArray);
+        $errfile = $errFileArray[$c-2] . '/' . $errFileArray[$c-1];
         $html = "
         <div style='background: #f8d7da; padding: 20px; margin: 10px; border-left: 4px solid #721c24; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;'>
             <h3 style='color: #721c24; margin-top: 0;'>⚠️ {$errorType}</h3>

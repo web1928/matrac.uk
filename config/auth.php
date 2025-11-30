@@ -1,5 +1,5 @@
 <?php
-
+declare (strict_types=1);
 /**
  * Session and Authentication Utilities
  * 
@@ -54,38 +54,18 @@ function initSecureSession()
  * 
  * @return bool True if user is logged in
  */
-function isLoggedIn()
+function isLoggedIn():bool
 {
     return isset($_SESSION['user_id']) && isset($_SESSION['user_role']);
 }
 
-/**
- * Require authentication - redirect to login if not authenticated
- * 
- * @param string $redirectUrl URL to redirect to after login
- */
-function requireAuth($redirectUrl = null)
-{
-    initSecureSession();
-
-    if (!isLoggedIn()) {
-        // Store intended destination
-        if ($redirectUrl) {
-            $_SESSION['redirect_after_login'] = $redirectUrl;
-        }
-
-        // Redirect to login
-        header('Location: /DEV_matrac.uk/public/index.php');
-        exit;
-    }
-}
 
 /**
  * Get current user data
  * 
  * @return array User data (id, username, role, first_name, last_name)
  */
-function getCurrentUser()
+function getCurrentUser():mixed
 {
     if (!isLoggedIn()) {
         return null;
@@ -105,7 +85,7 @@ function getCurrentUser()
  * 
  * @return string CSRF token
  */
-function generateCsrfToken()
+function generateCsrfToken():string
 {
     if (!isset($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -119,7 +99,7 @@ function generateCsrfToken()
  * @param string $token Token to validate
  * @return bool True if valid
  */
-function validateCsrfToken($token)
+function validateCsrfToken(string $token)
 {
     // Return false if token is null or empty
     if (empty($token) || !isset($_SESSION['csrf_token'])) {
