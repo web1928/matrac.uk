@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Matrac\Framework\Model;
@@ -10,13 +12,14 @@ use Matrac\Framework\Model;
  */
 class Supplier extends Model
 {
+
     protected static $table = 'supplier';
     protected static $primaryKey = 'supplier_id';
 
     /**
-     * Get all active suppliers
+     * Return array of all active suppliers
      */
-    public static function getActive()
+    public static function getActive(): array
     {
         $stmt = static::query(
             "SELECT * FROM supplier WHERE active = 1 ORDER BY supplier_name ASC"
@@ -25,12 +28,12 @@ class Supplier extends Model
     }
 
     /**
-     * Search suppliers by name
+     * Return searched list of searched suppliers
      * 
      * @param string $query Search term
      * @return array Matching suppliers
      */
-    public static function search($query)
+    public static function search($query): array
     {
         if (strlen($query) < 3) {
             return [];
@@ -57,8 +60,24 @@ class Supplier extends Model
     /**
      * Find supplier by ID
      */
-    public static function findById($id)
+    public static function findById($id): array
     {
         return static::find($id);
+    }
+
+    /**
+     * Return count of active suppliers
+     *
+     * @return integer
+     */
+    public static function getActiveSupplierCount(): int
+    {
+        $stmt = static::query(
+            "SELECT COUNT(*) as count 
+             FROM supplier 
+             WHERE active = 1"
+        );
+
+        return $stmt->fetch()['count'] ?? 0;
     }
 }

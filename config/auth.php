@@ -1,5 +1,7 @@
 <?php
-declare (strict_types=1);
+
+// declare(strict_types=1);
+
 /**
  * Session and Authentication Utilities
  * 
@@ -54,9 +56,9 @@ function initSecureSession()
  * 
  * @return bool True if user is logged in
  */
-function isLoggedIn():bool
+function isLoggedIn(): bool
 {
-    return isset($_SESSION['user_id']) && isset($_SESSION['user_role']);
+    return isset($_SESSION['user']['id']) && isset($_SESSION['user']['role']);
 }
 
 
@@ -65,18 +67,19 @@ function isLoggedIn():bool
  * 
  * @return array User data (id, username, role, first_name, last_name)
  */
-function getCurrentUser():mixed
+function getCurrentUser(): mixed
 {
     if (!isLoggedIn()) {
         return null;
     }
 
     return [
-        'user_id' => $_SESSION['user_id'] ?? null,
-        'username' => $_SESSION['username'] ?? null,
-        'role' => $_SESSION['user_role'] ?? null,
-        'first_name' => $_SESSION['first_name'] ?? null,
-        'last_name' => $_SESSION['last_name'] ?? null,
+        'user_id' => $_SESSION['user']['id'] ?? null,
+        'username' => $_SESSION['user']['username'] ?? null,
+        'email' => $_SESSION['user']['email'] ?? null,
+        'role' => $_SESSION['user']['role'] ?? null,
+        'first_name' => $_SESSION['user']['first_name'] ?? null,
+        'last_name' => $_SESSION['user']['last_name'] ?? null
     ];
 }
 
@@ -85,7 +88,7 @@ function getCurrentUser():mixed
  * 
  * @return string CSRF token
  */
-function generateCsrfToken():string
+function generateCsrfToken(): string
 {
     if (!isset($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -122,7 +125,7 @@ function hasRole($allowedRoles)
         return false;
     }
 
-    $userRole = $_SESSION['user_role'] ?? null;
+    $userRole = $_SESSION['user']['role'] ?? null;
 
     if (is_array($allowedRoles)) {
         return in_array($userRole, $allowedRoles);

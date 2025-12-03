@@ -29,7 +29,7 @@ class Request
     /**
      * Get all input
      */
-    public function all()
+    public function all(): array
     {
         return array_merge($_GET, $_POST);
     }
@@ -37,7 +37,7 @@ class Request
     /**
      * Check if input exists
      */
-    public function has($key)
+    public function has($key): bool
     {
         return isset($_POST[$key]) || isset($_GET[$key]);
     }
@@ -45,7 +45,7 @@ class Request
     /**
      * Get request method
      */
-    public function method()
+    public function method(): string
     {
         return $_SERVER['REQUEST_METHOD'];
     }
@@ -53,7 +53,7 @@ class Request
     /**
      * Check if request is POST
      */
-    public function isPost()
+    public function isPost(): bool
     {
         return $this->method() === 'POST';
     }
@@ -61,7 +61,7 @@ class Request
     /**
      * Check if request is GET
      */
-    public function isGet()
+    public function isGet(): bool
     {
         return $this->method() === 'GET';
     }
@@ -69,7 +69,7 @@ class Request
     /**
      * Check if request is AJAX
      */
-    public function isAjax()
+    public function isAjax(): bool
     {
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
@@ -78,7 +78,7 @@ class Request
     /**
      * Clean input value
      */
-    protected function clean($value)
+    protected function clean($value): array|string
     {
         if (is_array($value)) {
             return array_map([$this, 'clean'], $value);

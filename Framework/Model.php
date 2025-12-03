@@ -2,6 +2,11 @@
 
 namespace Matrac\Framework;
 
+use Exception;
+use PDO;
+use PDOStatement;
+use PDOException;
+
 /**
  * Base Model
  * Database access layer
@@ -14,23 +19,54 @@ class Model
     /**
      * Get database connection
      */
-    protected static function getDb()
+    protected static function getDb(): PDO
     {
         return getDbConnection();
     }
 
-    /**
-     * Execute query
-     */
-    protected static function query($sql, $params = [])
+    public static function beginTransaction(): void
     {
-        return executeQuery($sql, $params);
+        $pdo = static::getDb();
+        $pdo->beginTransaction();
+    }
+
+    public static function commitTransaction(): void
+    {
+        $pdo = static::getDb();
+        $pdo->commit();
+    }
+
+    public static function rollbackTransaction(): void
+    {
+        $pdo = static::getDb();
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
     }
 
     /**
-     * Find record by ID
+     * Executes a DB Select query
+     *
+     * @param string $sql
+     * @param array $params
+     * @return PDOStatement
      */
-    public static function find($id)
+    protected static function query(string $sql = '', array $params = []): PDOStatement
+    {
+        $pdo = static::getDb();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt;
+    }
+
+    /**
+     * Find record by primary key
+     *
+     * @param integer $id
+     * @return array
+     */
+    public static function find(int $id): array
     {
         $table = static::$table;
         $pk = static::$primaryKey;
@@ -44,19 +80,25 @@ class Model
     }
 
     /**
-     * Get all records
+     * Undocumented function
+     *
+     * @return array
      */
-    public static function all()
+    public static function all(): array
     {
         $table = static::$table;
         $stmt = static::query("SELECT * FROM {$table}");
+
         return $stmt->fetchAll();
     }
 
     /**
-     * Insert record
+     * Undocumented function
+     *
+     * @param array $data
+     * @return integer
      */
-    public static function insert($data)
+    public static function insert(array $data): int
     {
         $table = static::$table;
 
@@ -71,13 +113,17 @@ class Model
             $values
         );
 
-        return static::getDb()->lastInsertId();
+        return (int)static::getDb()->lastInsertId();  // ← Cast to int
     }
 
     /**
-     * Update record
+     * Undocumented function
+     *
+     * @param integer $id
+     * @param array $data
+     * @return integer
      */
-    public static function update($id, $data)
+    public static function update(int $id, array $data = []): int
     {
         $table = static::$table;
         $pk = static::$primaryKey;
@@ -99,13 +145,13 @@ class Model
             $values
         );
 
-        return static::find($id);
+        return (int)static::find($id);
     }
 
     /**
      * Delete record
      */
-    public static function delete($id)
+    public static function delete(int $id): void
     {
         $table = static::$table;
         $pk = static::$primaryKey;
@@ -119,7 +165,7 @@ class Model
     /**
      * Where clause
      */
-    public static function where($column, $operator, $value = null)
+    public static function where(string $column, string $operator, mixed $value = null): array
     {
         $table = static::$table;
 

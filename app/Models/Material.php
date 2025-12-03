@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Matrac\Framework\Model;
@@ -10,17 +12,19 @@ use Matrac\Framework\Model;
  */
 class Material extends Model
 {
+
     protected static $table = 'material';
     protected static $primaryKey = 'material_id';
 
     /**
      * Get all active materials
      */
-    public static function getActive()
+    public static function getActive(): array
     {
         $stmt = static::query(
             "SELECT * FROM material WHERE active = 1 ORDER BY code ASC"
         );
+
         return $stmt->fetchAll();
     }
 
@@ -30,7 +34,7 @@ class Material extends Model
      * @param string $query Search term
      * @return array Matching materials
      */
-    public static function search($query)
+    public static function search($query): array
     {
         if (strlen($query) < 3) {
             return [];
@@ -69,8 +73,24 @@ class Material extends Model
     /**
      * Find material by ID
      */
-    public static function findById($id)
+    public static function findById($id): array
     {
         return static::find($id);
+    }
+
+    /**
+     * Retruns the total number of material with on-hold status
+     *
+     * @return integer
+     */
+    public static function getActiveMaterialCount(): int
+    {
+        $stmt = static::query(
+            "SELECT COUNT(*) as count 
+             FROM material 
+             WHERE active = 1"
+        );
+
+        return $stmt->fetch()['count'] ?? 0;
     }
 }

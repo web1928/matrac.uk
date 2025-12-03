@@ -63,65 +63,7 @@ function getDbConnection()
         return $pdo;
     } catch (PDOException $e) {
         // Log error securely (don't expose credentials)
+        error_log("Database Connection Error: " . $e->getMessage());
         throw new Exception($e);
-        // error_log("Database Connection Error: " . $e->getMessage());
-
-        // Display generic error to user (never expose DB details)
-        // errorHandler("Database connection failed. Please contact support.");
-    }
-}
-
-/**
- * Execute a prepared statement safely
- * 
- * @param string $sql SQL query with placeholders
- * @param array $params Parameters to bind
- * @return PDOStatement Executed statement
- */
-function executeQuery($sql, $params = [])
-{
-    $pdo = getDbConnection();
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    return $stmt;
-}
-
-/**
- * Get the last inserted ID
- * 
- * @return string Last insert ID
- */
-function getLastInsertId()
-{
-    $pdo = getDbConnection();
-    return $pdo->lastInsertId();
-}
-
-/**
- * Begin database transaction
- */
-function beginTransaction()
-{
-    $pdo = getDbConnection();
-    $pdo->beginTransaction();
-}
-
-/**
- * Commit database transaction
- */
-function commitTransaction()
-{
-    $pdo = getDbConnection();
-    $pdo->commit();
-}
-
-/**
- * Rollback database transaction
- */
-function rollbackTransaction()
-{
-    $pdo = getDbConnection();
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
     }
 }

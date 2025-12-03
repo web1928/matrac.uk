@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use Matrac\Framework\Controller;
+use App\Models\Auth;
 use App\Models\Material;
 use App\Models\Supplier;
 use App\Models\Batch;
@@ -14,23 +17,26 @@ class GoodsReceiptController extends Controller
     /**
      * Show goods receipt form
      */
-    public function index()
+    public function index(): void
     {
-        return $this->view('goods-receipt.index');
+        $this->view('goods-receipt.index');
     }
 
     /**
-     * Process goods receipt
+     * Goods Receipt Process
+     *
+     * @return string
      */
-    public function store()
+    public function store(): string
     {
         try {
             // Get input
-            $materialId = $this->request->input('material_id');
-            $quantity = $this->request->input('quantity');
-            $supplierId = $this->request->input('supplier_id');
-            $supplierUseby1 = $this->request->input('supplier_useby_1');
-            $supplierBatch1 = $this->request->input('supplier_batch_code_1');
+            $materialId = (int)$this->request->input('material_id');
+            $quantity = (float)$this->request->input('quantity');
+            $supplierId = (int)$this->request->input('supplier_id');
+            $supplierUseby1 = (string)$this->request->input('supplier_useby_1');
+            $supplierBatch1 = (string)$this->request->input('supplier_batch_code_1');
+
 
             // Validate required fields
             if (!$materialId || $materialId <= 0) {
@@ -60,11 +66,11 @@ class GoodsReceiptController extends Controller
             }
 
             // Get current user
-            $user = getCurrentUser();
-            $userId = $user['user_id'];
+            $user = Auth::getCurrentUser($_SESSION['user']);
+            $userId = (int)$user['user_id'];
 
             // Begin transaction
-            beginTransaction();
+            Inventory::beginTransaction();
 
             // Create batch
             $batch = Batch::createFromReceipt([
@@ -98,7 +104,7 @@ class GoodsReceiptController extends Controller
             Transaction::logGoodsReceipt($batch['batch_id'], $quantity, $userId);
 
             // Commit transaction
-            commitTransaction();
+            Inventory::commitTransaction();
 
             // Return success
             return $this->json([
@@ -107,12 +113,12 @@ class GoodsReceiptController extends Controller
                 'batch_id' => $batch['batch_id']
             ]);
         } catch (\Exception $e) {
+
             // Rollback on error
-            rollbackTransaction();
+            Inventory::rollbackTransaction();
 
             // Log error
             error_log("Goods receipt error: " . $e->getMessage());
-
             // Return error
             return $this->json([
                 'success' => false,
@@ -124,7 +130,7 @@ class GoodsReceiptController extends Controller
     /**
      * Search materials (API endpoint)
      */
-    public function searchMaterials()
+    public function searchMaterials(): string
     {
         $query = $this->request->input('q', '');
         $results = Material::search($query);
@@ -135,7 +141,7 @@ class GoodsReceiptController extends Controller
     /**
      * Search suppliers (API endpoint)
      */
-    public function searchSuppliers()
+    public function searchSuppliers(): string
     {
         $query = $this->request->input('q', '');
         $results = Supplier::search($query);
@@ -146,7 +152,7 @@ class GoodsReceiptController extends Controller
     /**
      * Get recent receipts (API endpoint)
      */
-    public function recentReceipts()
+    public function recentReceipts(): string
     {
         $receipts = Batch::getTodayReceipts();
 

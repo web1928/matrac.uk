@@ -28,30 +28,6 @@ function asset($path)
 }
 
 /**
- * Get configuration value
- */
-// function config($key, $default = null)
-// {
-//     static $config = [];
-
-//     if (empty($config)) {
-//         $config = require ROOT_PATH . '/config/app.php';
-//     }
-
-//     $keys = explode('.', $key);
-//     $value = $config;
-
-//     foreach ($keys as $k) {
-//         if (!isset($value[$k])) {
-//             return $default;
-//         }
-//         $value = $value[$k];
-//     }
-
-//     return $value;
-// }
-
-/**
  * HTML escape
  */
 function h($string)

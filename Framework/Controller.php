@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Matrac\Framework;
 
+use Exception;
 use Matrac\Framework\Request;
 
 /**
@@ -16,8 +19,14 @@ class Controller
         $this->request = new Request();
     }
 
-    /* Renderview */
-    protected function view($view, $data = [])
+    /**
+     * Renders the page view
+     *
+     * @param string $view
+     * @param array $data
+     * @return void
+     */
+    protected function view(string $view, $data = []): void
     {
         // Extract data to variables
         extract($data);
@@ -26,7 +35,8 @@ class Controller
         $viewPath = ROOT_PATH . '/App/Views/' . str_replace('.', '/', $view) . '.php';
 
         if (!file_exists($viewPath)) {
-            die("View {$view} not found at {$viewPath}");
+            error_log("View {$view} not found at {$viewPath}");
+            throw new Exception("View {$view} not found at {$viewPath}");
         }
 
         // Start output buffering
@@ -43,7 +53,7 @@ class Controller
     }
 
     /* Return JSON response */
-    protected function json($data, $statusCode = 200)
+    protected function json($data, $statusCode = 200): never
     {
         http_response_code($statusCode);
         header('Content-Type: application/json');
@@ -52,20 +62,20 @@ class Controller
     }
 
     /* Redirect to URL */
-    protected function redirect($path, $statusCode = 302)
+    protected function redirect($path, $statusCode = 302): never
     {
         header('Location: ' . url($path), true, $statusCode);
         exit;
     }
 
     /* Set flash message */
-    protected function flash($key, $message)
+    protected function flash($key, $message): void
     {
         $_SESSION['flash'][$key] = $message;
     }
 
     /* Validate CSRF token */
-    protected function validateCsrf()
+    protected function validateCsrf(): void
     {
         $token = $this->request->input('csrf_token');
 
@@ -75,7 +85,7 @@ class Controller
     }
 
     /* Abort with error */
-    protected function abort($code, $message = null)
+    protected function abort($code, $message = null): never
     {
         http_response_code($code);
         die($message ?? "Error {$code}");

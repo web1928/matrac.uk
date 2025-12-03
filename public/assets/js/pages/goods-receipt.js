@@ -149,7 +149,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (result.success) {
         // Show success message
-        showAlert(`✓ Material received successfully! Batch code: ${result.batch_code}`, "success", 7000);
+        showAlert(
+          `✓ Material received successfully! Batch code: ${result.batch_code}`,
+          "success",
+          7000
+        );
 
         // Reset form
         form.reset();
@@ -252,11 +256,15 @@ document.addEventListener("DOMContentLoaded", () => {
                               minute: "2-digit",
                             })}</td>
                             <td><strong>${escapeHtml(receipt.internal_batch_code)}</strong></td>
-                            <td>${escapeHtml(receipt.material_code)} - ${escapeHtml(receipt.material_description)}</td>
+                            <td>${escapeHtml(receipt.material_code)} - ${escapeHtml(
+                          receipt.material_description
+                        )}</td>
                             <td>${formatNumber(receipt.delivered_quantity, 3)} ${escapeHtml(
                           receipt.delivered_qty_uom
                         )}</td>
-                            <td>${receipt.supplier_name ? escapeHtml(receipt.supplier_name) : "-"}</td>
+                            <td>${
+                              receipt.supplier_name ? escapeHtml(receipt.supplier_name) : "-"
+                            }</td>
                         </tr>
                     `
                       )

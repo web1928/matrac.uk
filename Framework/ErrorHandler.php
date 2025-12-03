@@ -1,4 +1,5 @@
 <?php
+
 namespace Matrac\Framework;
 
 /**
@@ -32,11 +33,11 @@ class ErrorHandler
      * @return bool
      */
     public function handleError(
-        $errno,
+        int $errno,
         string $errstr = 'Unknown Error',
         string $errfile = 'Unknown File',
         int $errline = 0
-    ):bool {
+    ): bool {
         // Don't handle suppressed errors (@)
         if (!(error_reporting() & $errno)) {
             return false;
@@ -52,9 +53,12 @@ class ErrorHandler
     }
 
     /**
-     * Handle uncaught exceptions
+     * Undocumented function
+     *
+     * @param object $exception
+     * @return void
      */
-    public function handleException($exception)
+    public function handleException(object $exception): void
     {
         // Log the exception with stack trace
         $message = $exception->getMessage() ?? 'Uncaught exception';
@@ -66,13 +70,12 @@ class ErrorHandler
 
         // Display the exception
         $this->showError('Exception', $message, $file, $line, $trace);
-
     }
 
     /**
      * Handle fatal errors (called on shutdown)
      */
-    public function handleFatalError()
+    public function handleFatalError(): void
     {
         $error = error_get_last();
 
@@ -98,13 +101,13 @@ class ErrorHandler
     /**
      * Log error to file with context
      */
-    private function logError($type, $message, $file, $line, $trace = null)
+    private function logError(string $type, string $message, string $file, int $line, $trace = null)
     {
         // Gather request context
         $context = [
             'url' => $_SERVER['REQUEST_URI'] ?? 'CLI',
             'method' => $_SERVER['REQUEST_METHOD'] ?? 'N/A',
-            'user_id' => $_SESSION['user_id'] ?? 'Guest',
+            'user_id' => $_SESSION['user']['id'] ?? 'Guest',
             'ip' => $_SERVER['REMOTE_ADDR'] ?? 'Unknown'
         ];
 
@@ -144,7 +147,7 @@ class ErrorHandler
     /**
      * Display error based on environment and request type
      */
-    private function showError($errorType, $errstr, $errfile, $errline, $trace = null)
+    private function showError(string $errorType, string $errstr, string $errfile, int $errline, $trace = null)
     {
         if (getenv('APP_ENV') === 'production') {
             // Production: hide details, suppress all output
@@ -192,13 +195,20 @@ class ErrorHandler
     }
 
     /**
-     * Generate detailed error HTML for development
+     * Undocumented function
+     *
+     * @param string $errorType
+     * @param string $errstr
+     * @param string $errfile
+     * @param integer $errline
+     * @param [type] $trace
+     * @return string
      */
-    private function getDetailedErrorHtml($errorType, $errstr, $errfile, $errline, $trace = null): string
+    private function getDetailedErrorHtml(string $errorType, string $errstr, string $errfile, int $errline, $trace = null): string
     {
         $errFileArray = explode('/', $errfile);
         $c = count($errFileArray);
-        $errfile = $errFileArray[$c-2] . '/' . $errFileArray[$c-1];
+        $errfile = $errFileArray[$c - 2] . '/' . $errFileArray[$c - 1];
         $html = "
         <div style='background: #f8d7da; padding: 20px; margin: 10px; border-left: 4px solid #721c24; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;'>
             <h3 style='color: #721c24; margin-top: 0;'>⚠️ {$errorType}</h3>
@@ -294,9 +304,11 @@ class ErrorHandler
     }
 
     /**
-     * Register all error handlers
+     * Undocumented function
+     *
+     * @return void
      */
-    public function register()
+    public function register(): void
     {
         set_error_handler([$this, 'handleError']);
         set_exception_handler([$this, 'handleException']);

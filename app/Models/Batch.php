@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Matrac\Framework\Model;
@@ -27,7 +29,7 @@ class Batch extends Model
      * @param int $userId User creating the batch
      * @return array Created batch with ID and code
      */
-    public static function createFromReceipt($data, $userId)
+    public static function createFromReceipt(array $data, int $userId): array
     {
         // Generate internal batch code
         $batchCode = static::generateBatchCode();
@@ -76,21 +78,21 @@ class Batch extends Model
      * jjj = Julian day of year (001-366)
      * nnn = Sequential number for the day (001-999)
      */
-    public static function generateBatchCode()
+    public static function generateBatchCode(): string
     {
         // Get current date
-        $year = date('y');        // 2-digit year (e.g., 25)
-        $julianDay = date('z') + 1; // Day of year (1-366), +1 because it's 0-indexed
-        $julianDay = str_pad($julianDay, 3, '0', STR_PAD_LEFT);
+        (string)$year = date('y');        // 2-digit year (e.g., 25)
+        (int)$julianDay = date('z') + 1; // Day of year (1-366), +1 because it's 0-indexed
+        (string)$julianDay = str_pad((string)$julianDay, 3, '0', STR_PAD_LEFT);
 
         // Get today's batch count to determine sequential number
-        $todayPrefix = $year . '-' . $julianDay . '-';
+        (string)$todayPrefix = "{$year}-{$julianDay}-";
 
         $stmt = static::query(
-            "SELECT internal_batch_code 
-             FROM batch 
-             WHERE internal_batch_code LIKE ? 
-             ORDER BY internal_batch_code DESC 
+            "SELECT `internal_batch_code` 
+             FROM `batch` 
+             WHERE `internal_batch_code` LIKE ? 
+             ORDER BY `internal_batch_code` DESC 
              LIMIT 1",
             [$todayPrefix . '%']
         );
@@ -99,24 +101,25 @@ class Batch extends Model
 
         if ($lastBatch) {
             // Extract the sequence number from last batch (last 3 digits)
-            $lastSequence = (int)substr($lastBatch['internal_batch_code'], -3);
-            $nextSequence = $lastSequence + 1;
+            (int)$lastSequence = (int)substr($lastBatch['internal_batch_code'], -3);
+            error_log(gettype($lastSequence));
+            (int)$nextSequence = $lastSequence + 1;
         } else {
             // First batch of the day
-            $nextSequence = 1;
+            (int)$nextSequence = 1;
         }
 
         // Pad sequence to 3 digits
-        $sequence = str_pad($nextSequence, 3, '0', STR_PAD_LEFT);
+        (string)$sequence = str_pad((string)$nextSequence, 3, '0', STR_PAD_LEFT);
 
         // Format: yy-jjj-nnn
-        return $year . '-' . $julianDay . '-' . $sequence;
+        return (string) "{$todayPrefix}-{$sequence}";
     }
 
     /**
      * Get recent receipts for today
      */
-    public static function getTodayReceipts()
+    public static function getTodayReceipts(): array
     {
         $stmt = static::query(
             "SELECT 
@@ -137,5 +140,92 @@ class Batch extends Model
         );
 
         return $stmt->fetchAll();
+    }
+
+    /**
+     * Returns the number of Goods Receipts for the current day
+     *
+     * @return integer
+     */
+    public static function getTodayReceiptCount(): int
+    {
+        $stmt = static::query(
+            "SELECT COUNT(*) as count 
+             FROM batch 
+             WHERE DATE(receipt_date) = CURDATE()"
+        );
+
+        return (int) $stmt->fetch()['count'];
+    }
+
+    public static function getActiveBatchCount(): int
+    {
+        $stmt = static::query(
+            "SELECT COUNT(DISTINCT b.batch_id) as count
+             FROM batch b
+             JOIN inventory i ON b.batch_id = i.batch_id
+             JOIN hold_status hs ON i.hold_status_id = hs.hold_status_id
+             WHERE i.quantity > 0 
+               AND hs.status_code != 'REJECTED'"
+        );
+
+        return (int) $stmt->fetch()['count'];
+    }
+
+
+    /**
+     * Returns a list array of the 5 most recently receipted materials
+     *
+     * @return array
+     */
+    public static function getRecentReceipts(): array
+    {
+        $stmt = static::query(
+            "SELECT 
+                b.internal_batch_code,
+                b.delivered_quantity,
+                b.delivered_qty_uom,
+                b.receipt_date,
+                m.code as material_code,
+                m.description as material_description,
+                s.supplier_name,
+                CONCAT(u.first_name, ' ', u.last_name) as received_by
+             FROM batch b
+             JOIN material m ON b.material_id = m.material_id
+             LEFT JOIN supplier s ON b.supplier_id = s.supplier_id
+             JOIN users u ON b.user_id = u.user_id
+             WHERE DATE(b.receipt_date) = CURDATE()
+             ORDER BY b.receipt_date DESC
+             LIMIT 5"
+        );
+
+        return $stmt->fetchAll();
+    }
+
+    public static function getBatchDetails(int $batchID): array
+    {
+
+        // Get batch details
+        $stmt = static::query(
+            "SELECT 
+                    b.*,
+                    m.code as material_code,
+                    m.description as material_description,
+                    m.base_uom,
+                    m.material_group,
+                    s.supplier_name,
+                    s.contact_name,
+                    u.username,
+                    u.first_name,
+                    u.last_name
+                 FROM batch b
+                 JOIN material m ON b.material_id = m.material_id
+                 LEFT JOIN supplier s ON b.supplier_id = s.supplier_id
+                 JOIN users u ON b.user_id = u.user_id
+                 WHERE b.batch_id = ?",
+            [$batchID]
+        );
+
+        return $stmt->fetch();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+// declare(strict_types=1);
+
 namespace App\Middleware;
 
 use Matrac\Framework\Middleware;
@@ -10,7 +12,12 @@ use Matrac\Framework\Middleware;
  */
 class CsrfMiddleware extends Middleware
 {
-    public function handle()
+    /**
+     * Handles the csrf validation
+     *
+     * @return boolean
+     */
+    public function handle(): bool
     {
         $method = $_SERVER['REQUEST_METHOD'];
 
